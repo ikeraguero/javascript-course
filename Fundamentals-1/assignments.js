@@ -3,8 +3,8 @@
 assign their values according to your own country (population in millions)
 2. Log their values to the console */
 
-let country = 'Brazil';
-let continent = 'South America';
+const country = 'Brazil';
+const continent = 'South America';
 let population = '214 million';
 
 /* LECTURE: Data Types
@@ -14,8 +14,17 @@ country. The variable should hold a Boolean value. Also declare a variable
 2. Log the types of 'isIsland', 'population', 'country' and 'language'
 to the console */
 
-let isIsland = false;
+const isIsland = false;
 let language;
+
+/* LECTURE: let, const and var
+1. Set the value of 'language' to the language spoken where you live (some
+countries have multiple languages, but just choose one)
+2. Think about which variables should be const variables (which values will never
+change, and which might change?). Then, change these variables to const.
+3. Try to change one of the changed variables now, and observe what happens */
+
+language = "Portuguese";
 
 console.log(isIsland);
 console.log(population);
