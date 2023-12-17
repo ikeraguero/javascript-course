@@ -42,10 +42,11 @@ const countryHalfPopulation = population / 2;
 const countryPopulationIncreased = population + 1;
 const countryComparedToFinland = population > 6000000;
 const countryComparedToAverage = population > 33000000;
-const description = country + " " + "is in " + continent + ", and its " + population + " people sepak " + language;
 
-console.log(countryHalfPopulation);
-console.log(countryPopulationIncreased);
-console.log(countryComparedToFinland);
-console.log(countryComparedToAverage)
+/* LECTURE: Strings and Template Literals
+1. Recreate the 'description' variable from the last assignment, this time
+using the template literal syntax */
+
+const description = `${country} is in ${continent} and its ${population} people speak ${language}`;
+
 console.log(description);
