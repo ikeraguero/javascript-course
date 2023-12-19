@@ -15,7 +15,7 @@ country. The variable should hold a Boolean value. Also declare a variable
 to the console */
 
 const isIsland = false;
-let language;
+let countryLanguage;
 
 /* LECTURE: let, const and var
 1. Set the value of 'language' to the language spoken where you live (some
@@ -24,7 +24,7 @@ countries have multiple languages, but just choose one)
 change, and which might change?). Then, change these variables to const.
 3. Try to change one of the changed variables now, and observe what happens */
 
-language = "Portuguese";
+countryLanguage = "Portuguese";
 
 /* LECTURE: Basic Operators
 1. If your country split in half, and each half would contain half the population,
@@ -47,7 +47,7 @@ const countryComparedToAverage = population > 33000000;
 1. Recreate the 'description' variable from the last assignment, this time
 using the template literal syntax */
 
-const description = `${country} is in ${continent} and its ${population} million people speak ${language}`;
+const description = `${country} is in ${continent} and its ${population} million people speak ${countryLanguage}`;
 
 /* LECTURE: Taking Decisions: if / else Statements
 1. If your country's population is greater that 33 million, log a string like this to the
@@ -127,4 +127,34 @@ if (speaksEnglish && hasLessThan50Million && !isIsland) {
     console.log(`You should live in ${country}!`);
 } else {
     console.log(`${country} does not meet your criteria`)
+}
+
+/* LECTURE: The switch Statement
+1. Use a switch statement to log the following string for the given 'language':
+chinese or mandarin: 'MOST number of native speakers!'
+spanish: '2nd place in number of native speakers'
+english: '3rd place'
+hindi: 'Number 4'
+arabic: '5th most spoken language'
+for all other simply log 'Great language too :D'*/
+
+const language = prompt("Inform a language")
+
+switch (language) {
+    case 'chinese':
+    case 'mandarin':
+        console.log("Most number of native speakers!");
+        break
+    case 'spanish':
+        console.log("2nd place in number of native speakers!");
+        break
+    case 'english':
+        console.log("3rd place and universal language!");
+    case 'hindi':
+        console.log("Number 4");
+    case 'arabic':
+        console.log("5th most spoken language!")
+    default: {
+        console.log("Great language too! :D")
+    }
 }
