@@ -47,6 +47,11 @@ const percentageOfNetherlands2 = percentageOfWorld2(17);
 const percentageOfEgypt2 = percentageOfWorld2(107);
 const percentageOfMexico2 = percentageOfWorld2(126);
 
-console.log(percentageOfNetherlands, percentageOfNetherlands2);
-console.log(percentageOfEgypt, percentageOfEgypt2);
-console.log(percentageOfMexico, percentageOfMexico2);
+/* LECTURE: Arrow Functions
+1. Recreate the last assignment, but this time create an arrow function called
+'percentageOfWorld3' */
+
+const percentageOfWorld3 = population => (population / 7900) * 100;
+console.log(percentageOfWorld3(17));
+console.log(percentageOfWorld3(107));
+console.log(percentageOfWorld3(126));
