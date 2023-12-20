@@ -55,3 +55,34 @@ const percentageOfWorld3 = population => (population / 7900) * 100;
 console.log(percentageOfWorld3(17));
 console.log(percentageOfWorld3(107));
 console.log(percentageOfWorld3(126));
+
+/* LECTURE: Functions Calling Other Functions
+1. Create a function called 'describePopulation'. Use the function type you
+like the most. This function takes in two arguments: 'country' and
+'population', and returns a string like this: 'China has 1441 million people,
+which is about 18.2% of the world.'
+2. To calculate the percentage, 'describePopulation' call the
+'percentageOfWorld1' you created earlier
+3. Call 'describePopulation' with data for 3 countries of your choice */
+
+const describePopulation = function (country, population) {
+    return `${country} has ${population} million people which is about ${percentageOfWorld1(population)}% of the world`
+}
+
+console.log(describePopulation('China', 1441))
+
+/* LECTURE: Introduction to Arrays
+1. Create an array containing 4 population values of 4 countries of your choice.
+You may use the values you have been using previously. Store this array into a
+variable called 'populations'
+2. Log to the console whether the array has 4 elements or not (true or false)
+3. Create an array called 'percentages' containing the percentages of the
+world population for these 4 population values. Use the function
+'percentageOfWorld1' that you created earlier to compute the 4
+percentage values */
+
+const populations = [38, 2, 6, 11]
+console.log(populations.length === 4);
+
+const percentages = [percentageOfWorld1(populations[0]), percentageOfWorld1(populations[1]), percentageOfWorld1(populations[2]), percentageOfWorld1(populations[3])]
+console.log(percentages);
