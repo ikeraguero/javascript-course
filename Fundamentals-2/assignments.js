@@ -69,8 +69,6 @@ const describePopulation = function (country, population) {
     return `${country} has ${population} million people which is about ${percentageOfWorld1(population)}% of the world`
 }
 
-console.log(describePopulation('China', 1441))
-
 /* LECTURE: Introduction to Arrays
 1. Create an array containing 4 population values of 4 countries of your choice.
 You may use the values you have been using previously. Store this array into a
@@ -82,10 +80,9 @@ world population for these 4 population values. Use the function
 percentage values */
 
 const populations = [38, 2, 6, 11]
-console.log(populations.length === 4);
 
 const percentages = [percentageOfWorld1(populations[0]), percentageOfWorld1(populations[1]), percentageOfWorld1(populations[2]), percentageOfWorld1(populations[3])]
-console.log(percentages);
+
 
 /* LECTURE: Basic Array Operations (Methods)
 1. Create an array containing all the neighbouring countries of a country of your
@@ -107,10 +104,19 @@ const saudiArabiaNeighbours = ["Qatar", "UAE", "Oman"]
 saudiArabiaNeighbours.push("Utopia");
 saudiArabiaNeighbours.pop()
 
-if (!saudiArabiaNeighbours.includes('Germany')) {
-    console.log("Probably not a central European country :D");
-}
-
 saudiArabiaNeighbours[0] = 'State of Qatar';
 saudiArabiaNeighbours[1] = 'The United Arab Emirates';
 saudiArabiaNeighbours[2] = 'Sultanate of Oman';
+
+/* LECTURE: Introduction to Objects
+1. Create an object called 'myCountry' for a country of your choice, containing
+properties 'country', 'capital', 'language', 'population' and
+'neighbours' (an array like we used in previous assignments) */
+
+const myCountry = {
+    country: 'Brazil',
+    capital: 'Brasilia',
+    language: 'Portuguese',
+    population: '214',
+    neighbours: ['Uruguay', 'Argentina', 'Paraguay', 'Bolivia', 'Peru', 'Colombia', 'Venezuela', 'Guyana', 'Suriname', 'French Guiana']
+}
