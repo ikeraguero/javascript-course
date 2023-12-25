@@ -26,15 +26,19 @@ const x = function () {
   // Selecting the input value and storing it in a variable
   const guess = Number(document.querySelector('.guess').value);
 
-  // Check if there are any number stored in the variable */
+  // Empty value
   if (!guess) {
     document.querySelector('.message').textContent = 'No Number!';
   }
-  // Check if number stored in number variable is equal to input value (guess), or, if isn't, if it's greater or lower, decrease the score by 1 and display new score
+  // Correct value
   else if (guess === secretNumber) {
     document.querySelector('.message').textContent = 'Correct answer';
     highscore = highscore + score;
     document.querySelector('.highscore').textContent = highscore;
+    document.querySelector('body').style.backgroundColor = '#60b347';
+    document.querySelector('.number').style.width = '30rem';
+
+    // Value too high
   } else if (guess > secretNumber) {
     if (score > 1) {
       document.querySelector('.message').textContent = 'Too high!';
@@ -44,6 +48,8 @@ const x = function () {
       document.querySelector('.message').textContent = 'Game over!';
       document.querySelector('.score').textContent = 0;
     }
+
+    // Value too low
   } else if (guess < secretNumber) {
     if (score > 1) {
       document.querySelector('.message').textContent = 'Too low!';
