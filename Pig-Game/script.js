@@ -10,8 +10,26 @@ const player2 = document.querySelector('.player--1');
 const dice = document.querySelector('.dice');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
+const btnNew = document.querySelector('.btn--new');
 let currentScore0 = Number(document.getElementById('current--0').textContent);
 let currentScore1 = Number(document.getElementById('current--1').textContent);
+
+// Functions
+
+const gameRestart = function () {
+  dice.classList.add('hidden');
+  if (!player1.classList.contains('active--player')) {
+    player1.classList.add('active--player');
+  }
+  score0 = 0;
+  score1 = 0;
+  currentScore0 = 0;
+  currentScore1 = 0;
+  document.getElementById('score--0').textContent = score0;
+  document.getElementById('score--1').textContent = score1;
+  document.getElementById('current--0').textContent = currentScore0;
+  document.getElementById('current--1').textContent = currentScore1;
+};
 
 // User rolls dice
 
@@ -59,6 +77,10 @@ btnHold.addEventListener('click', function () {
     document.getElementById('current--0').textContent = currentScore0;
     player1.classList.remove('player--active');
     player2.classList.add('player--active');
+    if (score0 >= 100) {
+      console.log('Player 1 wins!');
+      gameRestart();
+    }
   } else if (player2.classList.contains('player--active')) {
     score1 = score1 + currentScore1;
     currentScore1 = 0;
@@ -67,4 +89,10 @@ btnHold.addEventListener('click', function () {
     player2.classList.remove('player--active');
     player1.classList.add('player--active');
   }
+  if (score0 >= 100) {
+    console.log('Player 2 wins!');
+    gameRestart();
+  }
 });
+
+btnNew.addEventListener('click', gameRestart);
