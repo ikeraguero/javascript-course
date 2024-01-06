@@ -45,6 +45,29 @@ const restaurant = {
   },
 };
 
+const rest1 = {
+  name: 'Capri',
+  numGuests: 0,
+};
+
+const rest2 = {
+  name: 'La Piazza',
+  owner: 'Antonio Giovinazzi',
+};
+
+// Nullish assignment operator (it'll assign the new value to the variable if the current value is null or undefined)
+
+rest1.numGuests ??= 10;
+rest2.numGuests ??= 10;
+
+// AND operator (it'll assign the new value to the variable if the current value is truthy)
+
+rest1.owner &&= '<ANONYMOUS>';
+rest2.owner &&= '<ANONYMOUS>';
+console.log(rest1);
+console.log(rest2);
+
+/*
 restaurant.orderDelivery({
   time: '22:30',
   address: 'Rua Dona Cezarina, 101',
@@ -91,6 +114,8 @@ console.log(letters);
 );
 
 */
+
+/*
 // Creating new restaurant object
 
 const newRestaurant = { ...restaurant, owner: 'Giuseppe' };
@@ -110,6 +135,13 @@ restaurant.orderPizza('Mushroom');
 
 console.log(undefined || 'Iker');
 console.log(undefined && 'Iker');
+
+// Nullish operator (null and undefined (NOT 0 or ''))
+
+const guestsCorrect = restaurant.numGuests ?? 10;
+
+
+//(if the restaurant.numGuest is nullish, return 10, otherwise, return restaurant.numGuests)
 
 /* 
 // Destructing objects
