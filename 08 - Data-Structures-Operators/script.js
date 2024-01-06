@@ -36,6 +36,13 @@ const restaurant = {
       `Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`
     );
   },
+
+  // REST OPERATORS
+
+  orderPizza: function (mainIngredient, ...otherIngredients) {
+    console.log(mainIngredient);
+    console.log(otherIngredients);
+  },
 };
 
 restaurant.orderDelivery({
@@ -93,6 +100,11 @@ console.log(newRestaurant);
 
 const restaurantCopy = { ...restaurant };
 console.log(restaurantCopy);
+
+// Using REST OPERATOR method (rest operator is used to collect items int(o a single array and has the same syntax as the spread operator)
+
+restaurant.orderPizza('Mushroom', 'Onion', 'Spinach', 'Olives');
+restaurant.orderPizza('Mushroom');
 
 /* 
 // Destructing objects
