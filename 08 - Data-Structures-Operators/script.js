@@ -106,6 +106,11 @@ console.log(restaurantCopy);
 restaurant.orderPizza('Mushroom', 'Onion', 'Spinach', 'Olives');
 restaurant.orderPizza('Mushroom');
 
+//Short-circuiting definition: OR operator returns the first truthy value in the operation and the AND operator return first falsy value
+
+console.log(undefined || 'Iker');
+console.log(undefined && 'Iker');
+
 /* 
 // Destructing objects
 
