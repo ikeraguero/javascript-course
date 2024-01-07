@@ -49,6 +49,30 @@ const restaurant = {
   },
 };
 
+/*
+
+// OPTIONAL CHAINING - checking if previous element exist before executing something
+
+const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+for (const day of days) {
+  const open = restaurant.openingHours[day]?.open ?? 'closed';
+  console.log(`On ${day} we open at ${open}`);
+}
+
+// Methods
+
+console.log(restaurant.order?.(1, 0) ?? 'Method does not exist');
+console.log(restaurant.orderRisotto?.(1, 0) ?? 'Method does not exist');
+
+// Arrays
+
+const users = [];
+
+console.log(users[0]?.name ?? 'User array is empty');
+
+/*
+
 // FOR OF LOOP
 
 const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
