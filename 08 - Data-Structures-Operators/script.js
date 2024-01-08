@@ -49,6 +49,11 @@ const restaurant = {
   },
 };
 
+// SETS - used for work with unique values
+
+const meals = new Set(['Pizza', 'Pizza', 'Pasta', 'Gnocci']);
+console.log(meals);
+
 // LOOPING OBJETCS: KEYS, VALUES AND ENTRIES
 
 // Properties of the object
