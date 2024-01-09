@@ -49,6 +49,41 @@ const restaurant = {
   },
 };
 
+/*
+// MAPS ITERATION
+
+const quiz = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Python'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct!'],
+  [false, 'Try again!'],
+]);
+
+// Convert object to maps
+
+const hoursMap = new Map(Object.entries(openingHours));
+
+// Convert maps to arrays
+console.log([...quiz]);
+
+// Quiz app
+
+console.log(quiz);
+console.log(quiz.get('question'));
+for (const [key, value] of quiz) {
+  if (typeof key === 'number') {
+    console.log(`Option ${key} - ${value}`);
+  }
+}
+
+const answer = Number(prompt('What is your answer?'));
+
+console.log(quiz.get(answer === quiz.get('correct')));
+
+/*
 // MAPS
 
 // creating a map and setting values (keys, values)
