@@ -49,10 +49,54 @@ const restaurant = {
   },
 };
 
-// SETS - used for work with unique values
+// MAPS
+
+// creating a map and setting values (keys, values)
+
+const rest = new Map();
+rest
+  .set('name', 'Clasico Italiano')
+  .set(1, 'Fiorano, Italy')
+  .set(2, 'Turin, Italy')
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open')
+  .set(false, 'We are closed');
+console.log(rest);
+
+rest.delete(2);
+console.log(rest);
+
+// map.get to access the key's value
+
+const time = 21;
+console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
+
+rest.set(document.querySelector('h1'), 'Heading');
+console.log(rest);
+/*
+
+// SETS - used for work with unique values, will always show the amount of unique values in an array or letters on a string
 
 const meals = new Set(['Pizza', 'Pizza', 'Pasta', 'Gnocci']);
 console.log(meals);
+
+meals.add('Garlic Bread');
+console.log(meals);
+
+meals.delete('Pasta');
+console.log(meals);
+
+for (const meal of meals) {
+  console.log(meal);
+}
+
+// Example
+
+const staff = ['Chef', 'Waiter', 'Manager', 'Waiter', 'Waiter', 'Chef'];
+const uniqueStaffPositions = [...new Set(staff)];
+console.log(uniqueStaffPositions);
 
 // LOOPING OBJETCS: KEYS, VALUES AND ENTRIES
 
