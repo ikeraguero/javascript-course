@@ -49,6 +49,67 @@ const restaurant = {
   },
 };
 
+// WORKING WITH STRINGS - PART 2
+
+// Fix capitalization name
+
+const wrongName = 'iKeR';
+const fixedName = wrongName.toLowerCase();
+console.log(wrongName[0].toUpperCase() + fixedName.slice(1));
+
+// Comparing emaisl -- create a function to compare the correct and the want-to-check email
+
+const comparingEmails = function (correct, check) {
+  const correct1 = correct.toLowerCase();
+  const check1 = check.toLowerCase().trim();
+  if (correct1 == check1) {
+    console.log('The emails match!');
+  } else {
+    console.log('Emails do not match!');
+  }
+};
+
+comparingEmails('ikerpires407@gmail.com', 'IkeRpIRes407@GmAIL.com');
+// replacing
+const airportMessage =
+  'All passangers come to board on door 23. Boarding on door 23!';
+const airportCorrectMessage = airportMessage.replaceAll('door', 'gate');
+console.log(airportCorrectMessage);
+
+const priceGB = '23,00£';
+const priceUS = priceGB.replace(',', '.').replace('£', '$');
+console.log(priceGB, priceUS);
+
+// Booleans
+
+const plane = 'Airbus A320neo';
+if (
+  plane.toLowerCase().includes('neo') &&
+  plane.toLowerCase().includes('airbus')
+) {
+  console.log('Part of the new Airbus family');
+}
+
+// Practice - check if a passanger can go aboard with his baggage
+
+const baggageCheck = function (baggageItems) {
+  if (
+    baggageItems.toLowerCase().includes('knife') ||
+    baggageItems.toLowerCase().includes('gun')
+  ) {
+    console.log('You are not allowed to go aboard');
+  } else {
+    console.log('Welcome aboard!');
+  }
+};
+
+baggageCheck('I have a knife');
+baggageCheck('I have a camera');
+baggageCheck('I have a gun');
+baggageCheck('I have a football');
+
+/*
+
 // WORKING WITH STRINGS - PART 1
 
 const airline = 'LATAM Airlines';
