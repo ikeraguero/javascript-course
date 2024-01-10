@@ -49,6 +49,37 @@ const restaurant = {
   },
 };
 
+// WORKING WITH STRINGS - PART 1
+
+const airline = 'LATAM Airlines';
+const plane = 'A328';
+
+console.log(plane[0]);
+console.log(airline.length);
+console.log(airline.indexOf('M'));
+console.log(airline.lastIndexOf('A'));
+
+console.log(airline.slice(0, 5)); // sice - beginning and end point
+
+console.log(airline.slice(0, airline.indexOf(' ')));
+console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+console.log(airline.slice(-1));
+
+const checkMiddleSeat = function (seat) {
+  // Seats that end with B or E are middle seats
+  const s = seat;
+  if (seat.slice(-1) == 'B' || seat.slice(-1) == 'E') {
+    console.log('That is a middle seat!');
+  } else {
+    console.log('Not a middle seat!');
+  }
+};
+
+checkMiddleSeat('23E');
+checkMiddleSeat('42B');
+checkMiddleSeat('17A');
+checkMiddleSeat('18F');
+
 /*
 // MAPS ITERATION
 
