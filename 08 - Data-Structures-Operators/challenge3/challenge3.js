@@ -31,16 +31,7 @@ const gameEvents = new Map([
   [92, '🔶 Yellow card'],
 ]);
 
-// Converting map to object
-const gameEventsObject = Object.fromEntries(gameEvents);
-
-// Creating new set (because we don't want duplicate values)
-const events = new Set([]);
-
-// Looping over gameEventsArray object values and adding them to events set
-for (const event of Object.values(gameEventsObject)) {
-  events.add(event);
-}
+const events = [...new Set(gameEvents.values())];
 
 console.log(events);
 
@@ -51,12 +42,13 @@ console.log(gameEvents);
 
 // 3
 
-// Getting the length of the array that contains all the keys from the gameEventsObject object, because it'll represent the number of events that happened in the game
+// Calculating game duration
 
-const numberEvents = Object.keys(gameEventsObject).length;
+const duration = [...gameEvents.key().pop()];
 
-// Calculating the average
-const avgEvent = 90 / numberEvents;
+// Getting the size of the Map and calculating the average
+
+const avgEvent = duration / gameEvents.size;
 
 console.log(`An event happened, on average, every ${avgEvent} minutes`);
 
