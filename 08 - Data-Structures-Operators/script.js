@@ -51,6 +51,46 @@ const restaurant = {
 
 // WORKING WITH STRINGS - PART 2
 
+// Split and join
+
+const myName = 'iker aguero pires';
+
+const [firstName, middleName, lastName] = myName.split(' ');
+
+const newName = ['Mr.', firstName, middleName, lastName].join(' ');
+console.log(newName);
+
+// function to capitalize name
+
+const capitalizeName = function (names) {
+  const nameArray = names.split(' ');
+  const newNameArray = [];
+
+  for (const n in nameArray) {
+    newNameArray.push(
+      nameArray[n].replace(nameArray[n][0], nameArray[n][0].toUpperCase())
+    );
+  }
+  console.log(newNameArray.join(' '));
+};
+
+capitalizeName('iker aguero pires');
+
+// Padding
+
+// Writing a function to hide a credit card number
+
+const hideCardNumber = function (number) {
+  const cardNumber = String(number);
+  const last = cardNumber.slice(-4);
+  console.log(last.padStart(cardNumber.length, '*'));
+};
+
+hideCardNumber(98217826397918262);
+
+/*
+// WORKING WITH STRINGS - PART 2
+
 // Fix capitalization name
 
 const wrongName = 'iKeR';
