@@ -405,3 +405,69 @@ hasExamplesInJava(books[1]);
 for (const book of books) {
   book.onlineContent && console.log(`${book.title} provides online content`);
 }
+
+// NULLISH OPERATOR
+
+/* 6 There are objects in the books array that don't have the onlineContent property at all. Loop over the books array, and log a string to the console in this format: "${title}" provides no data about its online content. */
+
+for (let i = 0; i < books.length; i++) {
+  books[i].onlineContent ??
+    `${title} provides no data about its online content`;
+}
+
+// LOGICAL ASSIGNMENTS OPERATORS
+
+/* 7 Some of the book objects from the books array are missing the edition property. Loop over the books array, and assign this property with a number 1 (if it doesn't already exist). Use logical assignment operators. */
+
+for (const book1 of books) {
+  book1.edition ||= 1;
+}
+
+/* 7.2 Some of the book objects from the books array have the highlighted property, which by default is set to true. Iterate over the books array, and if the thirdParty.goodreads.rating property is less than 4.2, reassign it with false.
+
+Use the &&= operator (tip: you may also need the ! operator) */
+
+for (const book2 of books) {
+  book2.highlighted &&= !(book2.thirdParty.goodreads.rating < 4.2);
+  console.log(book2.highlighted);
+}
+
+// THE FOR OF LOOP
+
+/* 8 Use the for-of loop to loop over the books array and sum the pages of all books. Use the pageSum variable below, and the pages property of the book objects.*/
+
+let pageSum = 0;
+for (const books1 of books) {
+  pageSum = pageSum + books1.pages;
+}
+console.log(pageSum);
+
+/* 8.2 Below is the allAuthors variable which stores an empty array. Use the for-of loop to fill allAuthors with the authors of each book from the books array.
+
+Remember that each book object has the author property, which can be a string (if there is only a single author) or an array (if there are multiple authors). You may need to use the typeof operator. You can also use multiple loops if needed. The allAuthors array should have just one level (no nested arrays). 
+*/
+
+const allAuthors = [];
+for (const book of books) {
+  console.log(book.author);
+  if (typeof book.author == 'object') {
+    allAuthors.push(...book.author);
+  } else {
+    allAuthors.push(book.author);
+  }
+}
+console.log(allAuthors);
+
+/* 8.3 Use the for-of loop together with Array's entries() method to log each author from allAuthors to the console together with its index. Make the index start from 1, instead of 0. ]
+
+expected output
+1. Robert Sedgewick
+2. Kevin Wayne
+3. Harold Abelson
+   ...                    // part removed for clarity
+15. Cal Newport
+*/
+
+for (const [i, author] of allAuthors.entries()) {
+  console.log(`${i}. ${author}`);
+}
