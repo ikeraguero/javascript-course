@@ -1,6 +1,5 @@
 'use strict';
 
-/*
 //CALL AND APPLY METHODS
 
 const lufthansa = {
@@ -43,6 +42,40 @@ book.apply(lufthansa, flightData); //or
 
 book.call(lufthansa, ...flightData);
 console.log(lufthansa);
+
+// Bind method
+
+const bookLH = book.bind(lufthansa);
+const bookEW = book.bind(eurowings);
+
+bookLH(23, 'Sergio Perez');
+
+// function to book flights to an specific flight:
+
+const bookWE23 = book.bind(eurowings, 23);
+bookWE23('Iker Aguero');
+bookWE23('Lando Norris');
+
+// With Event Handlers
+
+lufthansa.planes = 300;
+lufthansa.buyPlanes = function () {
+  this.planes++;
+  console.log(this.planes);
+};
+document
+  .querySelector('.buy')
+  .addEventListener('click', lufthansa.buyPlanes.bind(lufthansa));
+
+// Partial application - making a specific function out of a more generic one
+
+const addTax = function (rate, value) {
+  console.log(value + value * rate);
+};
+
+const addVat = addTax.bind(null, 0.23);
+addVat(100);
+addVat(200);
 /*
 // FUNCTIONS RETURNING FUNCTIONS
 
