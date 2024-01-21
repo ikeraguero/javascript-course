@@ -1,5 +1,49 @@
 'use strict';
 
+/*
+//CALL AND APPLY METHODS
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  iata: 'LH',
+  bookings: [],
+  book: function (flightNum, passanger) {
+    console.log(
+      `${passanger} booked a seat on ${this.airline} flight ${this.iata}${flightNum}`
+    );
+    this.bookings.push([flightNum, passanger]);
+  },
+};
+
+lufthansa.book(239, 'Iker Aguero');
+
+const eurowings = {
+  airline: 'Eurowings',
+  iata: 'EW',
+  bookings: [],
+};
+
+const book = lufthansa.book;
+
+// Points to undefined
+// book(239, 'Iker Aguero');
+
+// Telling JS explicitly where the this keyword should point
+// Call method
+book.call(eurowings, 23, 'Lewis Hamilton');
+console.log(eurowings);
+
+book.call(lufthansa, 258, 'Charles Leclerc');
+console.log(lufthansa);
+
+// Apply method
+
+const flightData = [583, 'George Russell'];
+book.apply(lufthansa, flightData); //or
+
+book.call(lufthansa, ...flightData);
+console.log(lufthansa);
+/*
 // FUNCTIONS RETURNING FUNCTIONS
 
 const greet = function (greet) {
