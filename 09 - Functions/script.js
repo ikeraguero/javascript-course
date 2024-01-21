@@ -1,5 +1,22 @@
 'use strict';
 
+// FUNCTIONS RETURNING FUNCTIONS
+
+const greet = function (greet) {
+  return function (name) {
+    console.log(`${greet}, ${name}!`);
+  };
+};
+
+const greeter = greet('Hey');
+greeter('Iker');
+greeter('Charles');
+greeter('Max');
+greeter('Jude');
+
+greet('Hello')('Lewis');
+
+/*
 // FUNCTIONS ACCEPTING CALLBACK FUNCTIONS
 
 const upperFirstWord = function (str) {
