@@ -1,5 +1,63 @@
 'use strict';
 
+//ENCLOSURES - It's what 'links' the inner function with everything that was created in the outer function before it was 'destroyed' as its execution ended. It preserves the variable enviroment (variables) of the place where the function was created. Examples:
+
+// Without returning a function
+// Example 1
+let f;
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f();
+
+//Re-assigning f function
+h();
+f();
+
+//Check the variable enviroment
+console.dir(f);
+
+// Example 2
+
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+  console.log(`Will start board in ${wait} seconds`);
+};
+
+boardPassengers(180, 3);
+
+/*
+// IMMEDIATELY INVOKED FUNCTION
+
+// Normal
+
+const runOnce = function () {
+  console.log('This function will only run once');
+};
+
+// IIFE
+
+(function () {
+  console.log('This function will only run once');
+})();
+
+/*
 //CALL AND APPLY METHODS
 
 const lufthansa = {
