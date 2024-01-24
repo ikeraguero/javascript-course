@@ -73,6 +73,25 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+// Displaying the movements in the movements container UI
+
+const displayMovements = function () {
+  console.log(containerMovements);
+
+  movements.forEach(function (movement, i) {
+    const transaction = movement > 0 ? "deposit" : "withdrawal";
+
+    const html = `<div class="movements__row">
+  <div class="movements__type movements__type--${transaction}">${i} ${transaction}</div>
+  <div class="movements__date">3 days ago</div>
+  <div class="movements__value">${movement}€</div>
+</div>`;
+    containerMovements.insertAdjacentHTML("afterbegin", html);
+  });
+};
+
+displayMovements();
+
 /////////////////////////////////////////////////
 
 // FOR EACH METHOD - MAPS AND SETS
