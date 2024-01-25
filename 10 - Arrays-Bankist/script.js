@@ -92,8 +92,42 @@ const displayMovements = function () {
 
 displayMovements();
 
+//computingUsernames function
+
+const createUsername = function () {
+  accounts.forEach(function (acc) {
+    acc.username = acc.owner
+      .split(" ")
+      .map(function (name) {
+        return name[0].toLowerCase();
+      })
+      .join("");
+    console.log(acc.username);
+  });
+};
+
+createUsername();
 /////////////////////////////////////////////////
 
+// FILTER METHOD - Creates a new array with the elements that match the condition defined by the callback function
+
+// MAP METHOD - Iterates over an array and create a new one based on the callback function specifications (should always use RETURN)
+
+const eurToUsd = 1.1;
+const convertedToUsd = movements.map(function (mov) {
+  return mov * eurToUsd;
+});
+
+console.log(convertedToUsd);
+
+const movementsDescription = movements.map(function (mov, i) {
+  return `Movement ${
+    i + 1
+  }: You ${mov > 0 ? "deposited" : "withdrew"} ${Math.abs(mov)}`;
+});
+
+console.log(movementsDescription);
+/*
 // FOR EACH METHOD - MAPS AND SETS
 
 currencies.forEach(function (value, key, map) {
