@@ -30,14 +30,14 @@ const calcAverageHumanAge = function (arr) {
       return dog * 4;
     }
   });
-  const avgHumanAge = humanAge
-    .filter(function (age) {
-      return age >= 18;
-    })
-    .reduce(function (ac, cur) {
-      const sum = ac + cur;
-      return sum / avgHumanAge.length;
-    }, 0);
+  const underEighteen = humanAge.filter(function (age) {
+    return age >= 18;
+  });
+  const avgHumanAge = underEighteen.reduce(function (ac, cur) {
+    const sum = ac + cur;
+    return sum / underEighteen.length;
+  }, 0);
+  console.log(avgHumanAge);
 };
 
-calcAverageHumanAge();
+calcAverageHumanAge(dogAges);
