@@ -75,10 +75,10 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // Displaying the movements in the movements container UI
 
-const displayMovements = function () {
+const displayMovements = function (mov) {
   console.log(containerMovements);
 
-  movements.forEach(function (movement, i) {
+  mov.forEach(function (movement, i) {
     const transaction = movement > 0 ? "deposit" : "withdrawal";
 
     const html = `<div class="movements__row">
@@ -90,26 +90,46 @@ const displayMovements = function () {
   });
 };
 
-displayMovements();
+displayMovements(account1.movements);
 
 //computingUsernames function
 
-const createUsername = function () {
-  accounts.forEach(function (acc) {
-    acc.username = acc.owner
-      .split(" ")
-      .map(function (name) {
-        return name[0].toLowerCase();
-      })
-      .join("");
-    console.log(acc.username);
-  });
+const createUsername = function (acc) {
+  acc.username = acc.owner
+    .split(" ")
+    .map(function (name) {
+      return name[0].toLowerCase();
+    })
+    .join("");
+  console.log(acc.username);
 };
 
-createUsername();
+createUsername(account1);
 /////////////////////////////////////////////////
 
+// REDUCE METHOD
+
+const calcDisplayCurrentBalance = function (mov) {
+  const total = mov.reduce(function (ac, cur) {
+    return ac + cur;
+  });
+  labelBalance.textContent = `${total}€`;
+  console.log(total);
+};
+
+calcDisplayCurrentBalance(account1.movements);
+
 // FILTER METHOD - Creates a new array with the elements that match the condition defined by the callback function
+
+const deposited = movements.filter(function (mov) {
+  return mov > 0;
+});
+console.log(deposited);
+
+const withdrawal = movements.filter(function (mov) {
+  return mov < 0;
+});
+console.log(withdrawal);
 
 // MAP METHOD - Iterates over an array and create a new one based on the callback function specifications (should always use RETURN)
 
