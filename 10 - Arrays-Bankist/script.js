@@ -73,6 +73,57 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+// Display cashed in total
+
+const displayIn = function () {
+  const inTotal = movements
+    .filter(function (mov) {
+      return mov > 0;
+    })
+    .reduce(function (acc, cur) {
+      return acc + cur;
+    });
+  labelSumIn.textContent = `${inTotal}€`;
+};
+
+displayIn();
+
+// Display cashed out total
+
+const displayOut = function () {
+  const outTotal = movements
+    .filter(function (mov) {
+      return mov < 0;
+    })
+    .reduce(function (acc, cur) {
+      return acc + cur;
+    });
+  labelSumOut.textContent = `${Math.abs(outTotal)}€`;
+};
+
+displayOut();
+
+// Display interest
+
+const displayInterest = function () {
+  const interestTotal = movements
+    .filter(function (mov) {
+      return mov > 0;
+    })
+    .map(function (deposit) {
+      return deposit * 0.012;
+    })
+    .filter(function (interest) {
+      return interest >= 1;
+    })
+    .reduce(function (acc, cur) {
+      return acc + cur;
+    });
+  labelSumInterest.textContent = `${interestTotal}€`;
+};
+
+displayInterest();
+
 // Displaying the movements in the movements container UI
 
 const displayMovements = function (mov) {
@@ -147,7 +198,15 @@ const movementsDescription = movements.map(function (mov, i) {
 });
 
 console.log(movementsDescription);
+
+// FIND METHOD - return the first value the matches the callback function condition
+
+const account = accounts.find(function (acc) {
+  return acc.owner === "Jessica Davis";
+});
+
 /*
+
 // FOR EACH METHOD - MAPS AND SETS
 
 currencies.forEach(function (value, key, map) {
