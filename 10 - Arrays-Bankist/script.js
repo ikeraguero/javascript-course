@@ -73,10 +73,43 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// Display cashed in total
+// LOGIN
 
-const displayIn = function () {
-  const inTotal = movements
+let currentAccount = "";
+
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+  // Checking the account that's trying to log in
+  currentAccount = accounts.find(function (acc) {
+    return acc.username === inputLoginUsername.value;
+  });
+  console.log(currentAccount);
+  // Checking if account's pin matches the user input
+  if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
+    loginDisplays(currentAccount);
+  } else {
+    console.log("Invalid Login");
+  }
+});
+
+// LOGIN DISPLAYS FUNCTION
+
+const loginDisplays = function (acc) {
+  displayUI(acc);
+  displayMovements(acc);
+  displaySummary(acc);
+};
+
+// DISPLAYING THE UI
+
+const displayUI = function (acc) {
+  containerApp.style.opacity = 100;
+  labelWelcome.textContent = `Welcome back, ${acc.owner.split(" ")[0]}!`;
+  calcDisplayCurrentBalance(acc);
+};
+
+const displaySummary = function (acc) {
+  const inTotal = acc.movements
     .filter(function (mov) {
       return mov > 0;
     })
@@ -84,14 +117,8 @@ const displayIn = function () {
       return acc + cur;
     });
   labelSumIn.textContent = `${inTotal}€`;
-};
 
-displayIn();
-
-// Display cashed out total
-
-const displayOut = function () {
-  const outTotal = movements
+  const outTotal = acc.movements
     .filter(function (mov) {
       return mov < 0;
     })
@@ -99,19 +126,13 @@ const displayOut = function () {
       return acc + cur;
     });
   labelSumOut.textContent = `${Math.abs(outTotal)}€`;
-};
 
-displayOut();
-
-// Display interest
-
-const displayInterest = function () {
-  const interestTotal = movements
+  const interestTotal = acc.movements
     .filter(function (mov) {
       return mov > 0;
     })
     .map(function (deposit) {
-      return deposit * 0.012;
+      return (deposit * acc.interestRate) / 100;
     })
     .filter(function (interest) {
       return interest >= 1;
@@ -122,18 +143,18 @@ const displayInterest = function () {
   labelSumInterest.textContent = `${interestTotal}€`;
 };
 
-displayInterest();
-
 // Displaying the movements in the movements container UI
 
-const displayMovements = function (mov) {
+const displayMovements = function (acc) {
   console.log(containerMovements);
 
-  mov.forEach(function (movement, i) {
+  acc.movements.forEach(function (movement, i) {
     const transaction = movement > 0 ? "deposit" : "withdrawal";
 
     const html = `<div class="movements__row">
-  <div class="movements__type movements__type--${transaction}">${i} ${transaction}</div>
+  <div class="movements__type movements__type--${transaction}">${
+      i + 1
+    } ${transaction}</div>
   <div class="movements__date">3 days ago</div>
   <div class="movements__value">${movement}€</div>
 </div>`;
@@ -141,35 +162,35 @@ const displayMovements = function (mov) {
   });
 };
 
-displayMovements(account1.movements);
-
 //computingUsernames function
 
 const createUsername = function (acc) {
-  acc.username = acc.owner
-    .split(" ")
-    .map(function (name) {
-      return name[0].toLowerCase();
-    })
-    .join("");
+  acc.forEach(function (acc) {
+    acc.username = acc.owner
+      .split(" ")
+      .map(function (name) {
+        return name[0].toLowerCase();
+      })
+      .join("");
+  });
+
   console.log(acc.username);
 };
 
-createUsername(account1);
+createUsername(accounts);
 /////////////////////////////////////////////////
 
 // REDUCE METHOD
 
-const calcDisplayCurrentBalance = function (mov) {
-  const total = mov.reduce(function (ac, cur) {
+const calcDisplayCurrentBalance = function (acc) {
+  const total = acc.movements.reduce(function (ac, cur) {
     return ac + cur;
   });
   labelBalance.textContent = `${total}€`;
   console.log(total);
 };
 
-calcDisplayCurrentBalance(account1.movements);
-
+/*
 // FILTER METHOD - Creates a new array with the elements that match the condition defined by the callback function
 
 const deposited = movements.filter(function (mov) {
