@@ -73,7 +73,28 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+// TRANSFERS
+
 // LOGIN
+
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiver = accounts.find(function (acc) {
+    return acc.username === inputTransferTo.value;
+  });
+  // Checking conditions for transfer to be possible
+  console.log(currentAccount.balance);
+  if (
+    receiver &&
+    amount <= currentAccount.balance &&
+    receiver !== currentAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    receiver.movements.push(amount);
+    loginDisplays(currentAccount);
+  }
+});
 
 let currentAccount = "";
 
@@ -183,11 +204,10 @@ createUsername(accounts);
 // REDUCE METHOD
 
 const calcDisplayCurrentBalance = function (acc) {
-  const total = acc.movements.reduce(function (ac, cur) {
+  acc.balance = acc.movements.reduce(function (ac, cur) {
     return ac + cur;
   });
-  labelBalance.textContent = `${total}€`;
-  console.log(total);
+  labelBalance.textContent = `${acc.balance}€`;
 };
 
 /*
