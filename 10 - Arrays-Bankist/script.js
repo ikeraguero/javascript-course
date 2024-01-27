@@ -92,6 +92,26 @@ const createUsername = function (acc) {
 
 createUsername(accounts);
 
+// REQUEST LOAN (condition: the account needs to have at least 1 deposited that corresponds to 10% or more of the loan request value)
+
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+  // Storing amount according to user's input
+  const amount = Number(inputLoanAmount.value);
+  // Using the 'some' method to check if there is SOME or ANY movement on the movements array that matches the condition for the loan to be conceeded
+  const condition = currentAccount.movements.some(function (acc) {
+    return acc > amount * 0.1;
+  });
+  // Adding the loan to the account
+  if (condition && amount > 0) {
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount);
+  } else {
+    console.log("Loan request rejected");
+  }
+  console.log(condition);
+});
+
 // CLOSE ACCOUNT
 
 btnClose.addEventListener("click", function (e) {
