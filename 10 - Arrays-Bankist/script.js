@@ -73,12 +73,55 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// TRANSFERS
+//GENERATING USERNAMES
 
-// LOGIN
+const createUsername = function (acc) {
+  // Looping over the accounts array
+  acc.forEach(function (acc) {
+    // Setting a new 'username' property with the formated user name
+    acc.username = acc.owner
+      .split(" ")
+      .map(function (name) {
+        return name[0].toLowerCase();
+      })
+      .join("");
+  });
+
+  console.log(acc.username);
+};
+
+createUsername(accounts);
+
+// CLOSE ACCOUNT
+
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // findIndex will return the first element in the array that satisfies the function
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    // Using the splice method to remove the account. findIndex function returns the index of the account that's going to be removed from the array as first initial parameter and then defining 1 as second parameter in order to remove one element
+    accounts.splice(
+      accounts.findIndex(function (acc) {
+        return acc.username === inputCloseUsername.value;
+      }),
+      1
+    );
+    inputCloseUsername.value = "";
+    inputClosePin.value = "";
+    console.log(accounts);
+    containerApp.style.opacity = 0;
+    labelWelcome.textContent = "Log in to get started";
+  }
+});
+
+// TRANSFERS
 
 btnTransfer.addEventListener("click", function (e) {
   e.preventDefault();
+  // Defining amount and receiver according to user's input
   const amount = Number(inputTransferAmount.value);
   const receiver = accounts.find(function (acc) {
     return acc.username === inputTransferTo.value;
@@ -92,7 +135,7 @@ btnTransfer.addEventListener("click", function (e) {
   ) {
     currentAccount.movements.push(-amount);
     receiver.movements.push(amount);
-    loginDisplays(currentAccount);
+    updateUI(currentAccount);
   }
 });
 
@@ -107,15 +150,17 @@ btnLogin.addEventListener("click", function (e) {
   console.log(currentAccount);
   // Checking if account's pin matches the user input
   if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
-    loginDisplays(currentAccount);
+    updateUI(currentAccount);
   } else {
     console.log("Invalid Login");
   }
+  inputLoginUsername.value = "";
+  inputLoginPin.value = "";
 });
 
-// LOGIN DISPLAYS FUNCTION
+// UPDATE UI
 
-const loginDisplays = function (acc) {
+const updateUI = function (acc) {
   displayUI(acc);
   displayMovements(acc);
   displaySummary(acc);
@@ -130,6 +175,7 @@ const displayUI = function (acc) {
 };
 
 const displaySummary = function (acc) {
+  // Looping over the movements array in the account object
   const inTotal = acc.movements
     .filter(function (mov) {
       return mov > 0;
@@ -183,22 +229,6 @@ const displayMovements = function (acc) {
   });
 };
 
-//computingUsernames function
-
-const createUsername = function (acc) {
-  acc.forEach(function (acc) {
-    acc.username = acc.owner
-      .split(" ")
-      .map(function (name) {
-        return name[0].toLowerCase();
-      })
-      .join("");
-  });
-
-  console.log(acc.username);
-};
-
-createUsername(accounts);
 /////////////////////////////////////////////////
 
 // REDUCE METHOD
