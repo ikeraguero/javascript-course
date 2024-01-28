@@ -263,6 +263,78 @@ btnSort.addEventListener("click", function (e) {
 
 /////////////////////////////////////////////////
 
+// Exercise 1 - Calculate the total amount that was depoisted in the bank
+
+const totalDeposited = accounts
+  .flatMap((acc) => acc.movements)
+  .filter((mov) => mov > 0)
+  .reduce((acc, cur) => acc + cur, 0);
+console.log(`Total depoisted is ${totalDeposited}`);
+
+// Exercise 2 - Calculate how many 1.000 euros or more deposits there have been in the bank
+
+const totalAThousand = accounts
+  .flatMap((acc) => acc.movements)
+  .filter((mov) => mov >= 1000).length;
+console.log(totalAThousand);
+
+// Exercise 3 - Calculate the sum of the deposits and withdrawals
+
+const sums = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      sums[cur > 0 ? "deposited" : "withdrawal"] += cur;
+      return sums;
+    },
+    { deposited: 0, withdrawal: 0 }
+  );
+console.log(sums);
+
+// Exercise 4 - Create a function that formats every string passed in to title case
+
+const titleCase = (str) => {
+  const exceptions = [
+    "and",
+    "as",
+    "but",
+    "for",
+    "if",
+    "nor",
+    "or",
+    "so",
+    "yet",
+    "a",
+    "an",
+    "the",
+    "as",
+    "at",
+    "by",
+    "for",
+    "in",
+    "of",
+    "off",
+    "on",
+    "per",
+    "to",
+    "up",
+    "via",
+  ];
+
+  const capitalize = (str) => {
+    str[0].toUpperCase() + str.slice(1);
+  };
+
+  const formated = str
+    .toLowerCase()
+    .split(" ")
+    .map((word) => {
+      return !exceptions.includes(word) ? capitalize(word) : word;
+    });
+  console.log(capitalize(formated));
+};
+
+titleCase("Max Verstappen is the current formula 1 world champion");
 // MORE WAYS OF CREATING AND FILLING ARRAYS
 const array1 = [1, 2, 3, 4, 5, 6, 7];
 
