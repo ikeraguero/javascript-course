@@ -232,10 +232,13 @@ const displaySummary = function (acc) {
 
 // Displaying the movements in the movements container UI
 
-const displayMovements = function (acc) {
-  console.log(containerMovements);
+const displayMovements = function (acc, sort = false) {
+  containerMovements.innerHTML = "";
+  const movs = sort
+    ? acc.movements.slice("").sort((a, b) => a - b)
+    : acc.movements;
 
-  acc.movements.forEach(function (movement, i) {
+  movs.forEach(function (movement, i) {
     const transaction = movement > 0 ? "deposit" : "withdrawal";
 
     const html = `<div class="movements__row">
@@ -247,9 +250,40 @@ const displayMovements = function (acc) {
 </div>`;
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
+
+  // SORTING MOVEMENTS
 };
+let sorted = false;
+
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount, !sorted);
+  sorted = !sorted;
+});
 
 /////////////////////////////////////////////////
+
+// SORTING ARRAYS
+
+// Strings
+
+const owners = [
+  "Verstappen",
+  "Hamilton",
+  "Alonso",
+  "Leclerc",
+  "Gasly",
+  "Norris",
+];
+
+console.log(owners.sort());
+
+// Numbers
+
+const numbers = [2, 5, 3, 18, 92, 12, 8, 1];
+
+console.log(numbers.sort((a, b) => a - b));
+console.log(numbers.sort((a, b) => b - a));
 
 // FLAT METHOD
 
