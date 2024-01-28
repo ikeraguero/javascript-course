@@ -263,6 +263,28 @@ btnSort.addEventListener("click", function (e) {
 
 /////////////////////////////////////////////////
 
+// MORE WAYS OF CREATING AND FILLING ARRAYS
+const array1 = [1, 2, 3, 4, 5, 6, 7];
+
+// Empty arrays + fill method
+const x = new Array(7);
+
+x.fill(1, 3, 6); // fills the array with the first, from the second to the third parameter;
+console.log(x);
+
+// Array.from
+
+const y = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(y);
+
+labelBalance.addEventListener("click", function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll(".movements__value"),
+    (el) => Number(el.textContent.replace("€", ""))
+  ).sort((a, b) => a - b);
+  console.log(movementsUI);
+});
+
 // SORTING ARRAYS
 
 // Strings
