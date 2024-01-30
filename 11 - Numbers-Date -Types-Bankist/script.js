@@ -284,6 +284,18 @@ const calcDisplayCurrentBalance = function (acc) {
 
 // LECTURES
 
+// NUMERIC SEPARATOR
+
+// 287,450,000,000
+const diameter = 287_460_000_000;
+console.log(diameter);
+
+const price = 345_99;
+console.log(price);
+
+const transferFee = 15_00;
+const transferFee2 = 1_500;
+
 // MATH AND ROUNDING
 
 console.log(Math.sqrt(25));
