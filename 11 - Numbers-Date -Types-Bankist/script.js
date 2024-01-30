@@ -109,7 +109,7 @@ createUsername(accounts);
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
   // Storing amount according to user's input
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(+inputLoanAmount.value);
   // Using the 'some' method to check if there is SOME or ANY movement on the movements array that matches the condition for the loan to be conceeded
   const condition = currentAccount.movements.some(function (acc) {
     return acc > amount * 0.1;
@@ -154,7 +154,7 @@ btnClose.addEventListener("click", function (e) {
 btnTransfer.addEventListener("click", function (e) {
   e.preventDefault();
   // Defining amount and receiver according to user's input
-  const amount = Number(inputTransferAmount.value);
+  const amount = Math.floor(+inputTransferAmount.value);
   const receiver = accounts.find(function (acc) {
     return acc.username === inputTransferTo.value;
   });
@@ -215,7 +215,7 @@ const displaySummary = function (acc) {
     .reduce(function (acc, cur) {
       return acc + cur;
     });
-  labelSumIn.textContent = `${inTotal}€`;
+  labelSumIn.textContent = `${inTotal.toFixed(2)}€`;
 
   const outTotal = acc.movements
     .filter(function (mov) {
@@ -224,7 +224,7 @@ const displaySummary = function (acc) {
     .reduce(function (acc, cur) {
       return acc + cur;
     });
-  labelSumOut.textContent = `${Math.abs(outTotal)}€`;
+  labelSumOut.textContent = `${outTotal.toFixed(2)}€`;
 
   const interestTotal = acc.movements
     .filter(function (mov) {
@@ -239,7 +239,7 @@ const displaySummary = function (acc) {
     .reduce(function (acc, cur) {
       return acc + cur;
     });
-  labelSumInterest.textContent = `${interestTotal}€`;
+  labelSumInterest.textContent = `${interestTotal.toFixed(2)}€`;
 };
 
 // Displaying the movements in the movements container UI
@@ -258,7 +258,7 @@ const displayMovements = function (acc, sort = false) {
       i + 1
     } ${transaction}</div>
   <div class="movements__date">3 days ago</div>
-  <div class="movements__value">${movement}€</div>
+  <div class="movements__value">${Math.floor(movement).toFixed(2)}€</div>
 </div>`;
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
@@ -279,7 +279,7 @@ const calcDisplayCurrentBalance = function (acc) {
   acc.balance = acc.movements.reduce(function (ac, cur) {
     return ac + cur;
   });
-  labelBalance.textContent = `${acc.balance}€`;
+  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
 };
 
 // LECTURES
