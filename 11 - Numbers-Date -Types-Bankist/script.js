@@ -284,6 +284,37 @@ const calcDisplayCurrentBalance = function (acc) {
 
 // LECTURES
 
+/*
+// Dates
+
+const now = new Date();
+console.log(now);
+
+console.log(new Date("Aug 10 2020 18:05:41"));
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future);
+console.log(future.getFullYear());
+console.log(future.getMonth());
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.toISOString());
+console.log(future.getTime()); // timestamp in miliseconds of the time passed since Jan 1st 1970
+
+console.log(new Date(232178231832103210));
+console.log(Date.now());
+future.setFullYear(2040);
+console.log(future);
+
+// BigInts
+
+console.log(2 ** 52 - 1); // Maximum number JavaScript can precisely represent
+console.log(28738197319287389127398173891n);
+console.log(BigInt(28738197319287389127398173891));
+
+/*
 // NUMERIC SEPARATOR
 
 // 287,450,000,000
@@ -339,3 +370,4 @@ console.log(Number.isFinite(20));
 console.log(Number.isFinite(0));
 console.log(Number.isFinite(30 / 0));
 console.log(Number.isFinite("20"));
+*/
