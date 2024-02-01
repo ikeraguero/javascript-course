@@ -17,8 +17,8 @@ const account1 = {
     "2020-04-01T10:17:24.185Z",
     "2020-05-08T14:11:59.604Z",
     "2020-05-27T17:01:17.194Z",
-    "2020-07-11T23:36:17.929Z",
-    "2020-07-12T10:51:36.790Z",
+    "2024-01-31T23:36:17.929Z",
+    "2024-01-28T10:51:36.790Z",
   ],
   currency: "EUR",
   locale: "pt-PT", // de-DE
@@ -29,6 +29,7 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+  movementsDates: [],
 };
 
 const account3 = {
@@ -36,6 +37,7 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  movementsDates: [],
 };
 
 const account4 = {
@@ -167,6 +169,8 @@ btnTransfer.addEventListener("click", function (e) {
   ) {
     currentAccount.movements.push(-amount);
     receiver.movements.push(amount);
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiver.movementsDates.push(new Date().toISOString());
     updateUI(currentAccount);
   }
 });
@@ -242,6 +246,29 @@ const displaySummary = function (acc) {
   labelSumInterest.textContent = `${interestTotal.toFixed(2)}€`;
 };
 
+const formatDate = function (date) {
+  const calcDaysPassed = function (date1, date2) {
+    return Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+  };
+  const daysPassed = calcDaysPassed(new Date(), date);
+  console.log(daysPassed);
+
+  if (daysPassed === 0) {
+    return "TODAY";
+  }
+  if (daysPassed === 1) {
+    return "YESTERDAY";
+  }
+  if (daysPassed <= 7) {
+    return `${daysPassed} DAYS AGO`;
+  } else {
+    const day = `${date.getDate()}`.padStart(2, "0");
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+};
+
 // Displaying the movements in the movements container UI
 
 const displayMovements = function (acc, sort = false) {
@@ -252,12 +279,13 @@ const displayMovements = function (acc, sort = false) {
 
   movs.forEach(function (movement, i) {
     const transaction = movement > 0 ? "deposit" : "withdrawal";
+    const date = new Date(acc.movementsDates[i]);
 
     const html = `<div class="movements__row">
-  <div class="movements__type movements__type--${transaction}">${
+    <div class="movements__type movements__type--${transaction}">${
       i + 1
     } ${transaction}</div>
-  <div class="movements__date">3 days ago</div>
+  <div class="movements__date">${formatDate(date)}</div>
   <div class="movements__value">${Math.floor(movement).toFixed(2)}€</div>
 </div>`;
     containerMovements.insertAdjacentHTML("afterbegin", html);
@@ -282,8 +310,27 @@ const calcDisplayCurrentBalance = function (acc) {
   labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
 };
 
+// FAKE ALWAYS LOGGED IN
+
+currentAccount = account1;
+updateUI(account1);
+containerApp.style.opacity = 100;
+
+const now = new Date();
+/* const displayDate = () => {
+  labelDate.textContent = `${formatDate(
+    now
+  )}, ${now.getHours()}:${now.getMinutes()}`;
+};
+displayDate();
+
 // LECTURES
 
+// Operations with dates
+/*
+date1 = new Date();
+date2 = new Date();
+const daysPassed = date1 - date2 / (1000 * 60 * 60 * 24); // days passed between two dates
 /*
 // Dates
 
