@@ -119,6 +119,7 @@ btnLoan.addEventListener("click", function (e) {
   // Adding the loan to the account
   if (condition && amount > 0) {
     currentAccount.movements.push(amount);
+    currentAccount.movementsDates.push(new Date());
     updateUI(currentAccount);
   } else {
     console.log("Loan request rejected");
@@ -280,7 +281,7 @@ const displayMovements = function (acc, sort = false) {
   movs.forEach(function (movement, i) {
     const transaction = movement > 0 ? "deposit" : "withdrawal";
     const date = new Date(acc.movementsDates[i]);
-
+    console.log(date);
     const html = `<div class="movements__row">
     <div class="movements__type movements__type--${transaction}">${
       i + 1
