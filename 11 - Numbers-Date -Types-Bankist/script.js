@@ -318,12 +318,15 @@ updateUI(account1);
 containerApp.style.opacity = 100;
 
 const now = new Date();
-/* const displayDate = () => {
-  labelDate.textContent = `${formatDate(
-    now
-  )}, ${now.getHours()}:${now.getMinutes()}`;
-};
-displayDate();
+labelDate.textContent = `As of ${`${now.getDate()}`.padStart(2, "0")}/${`${
+  now.getMonth() + 1
+}`.padStart(2, "0")}/${`${now.getFullYear()}`.padStart(
+  2,
+  "0"
+)}, ${`${now.getHours()}`.padStart(2, "0")}:${`${now.getMinutes()}`.padStart(
+  2,
+  "0"
+)}`;
 
 // LECTURES
 
