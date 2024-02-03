@@ -40,6 +40,7 @@ const account2 = {
     "2024-01-28T10:51:36.790Z",
   ],
   locale: "en-US",
+  currency: "USD",
 };
 
 const account3 = {
@@ -96,6 +97,15 @@ const currencies = new Map([
 ]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// FORMAT CURRENCIES WITH INTERNATIONALIZATION
+
+const formatCur = function (value, locale, currency) {
+  return Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: currency,
+  }).format(value);
+};
 
 //GENERATING USERNAMES
 
@@ -244,7 +254,7 @@ const displaySummary = function (acc) {
     .reduce(function (acc, cur) {
       return acc + cur;
     });
-  labelSumIn.textContent = `${inTotal.toFixed(2)}€`;
+  labelSumIn.textContent = `${formatCur(inTotal, acc.locale, acc.currency)}`;
 
   const outTotal = acc.movements
     .filter(function (mov) {
@@ -253,7 +263,7 @@ const displaySummary = function (acc) {
     .reduce(function (acc, cur) {
       return acc + cur;
     });
-  labelSumOut.textContent = `${outTotal.toFixed(2)}€`;
+  labelSumOut.textContent = `${formatCur(outTotal, acc.locale, acc.currency)}`;
 
   const interestTotal = acc.movements
     .filter(function (mov) {
@@ -268,7 +278,11 @@ const displaySummary = function (acc) {
     .reduce(function (acc, cur) {
       return acc + cur;
     });
-  labelSumInterest.textContent = `${interestTotal.toFixed(2)}€`;
+  labelSumInterest.textContent = `${formatCur(
+    interestTotal,
+    acc.locale,
+    acc.currency
+  )}`;
 };
 
 const formatDate = function (date, locale) {
@@ -313,7 +327,11 @@ const displayMovements = function (acc, sort = false) {
       i + 1
     } ${transaction}</div>
   <div class="movements__date">${formatDate(date, acc.locale)}</div>
-  <div class="movements__value">${Math.floor(movement).toFixed(2)}€</div>
+  <div class="movements__value">${formatCur(
+    movement,
+    acc.locale,
+    acc.currency
+  )}</div>
 </div>`;
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
@@ -334,7 +352,11 @@ const calcDisplayCurrentBalance = function (acc) {
   acc.balance = acc.movements.reduce(function (ac, cur) {
     return ac + cur;
   });
-  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
+  labelBalance.textContent = `${formatCur(
+    acc.balance,
+    acc.locale,
+    acc.currency
+  )}`;
 };
 
 // LECTURES
