@@ -138,9 +138,12 @@ btnLoan.addEventListener("click", function (e) {
   });
   // Adding the loan to the account
   if (condition && amount > 0) {
-    currentAccount.movements.push(amount);
-    currentAccount.movementsDates.push(new Date());
-    updateUI(currentAccount);
+    // Setting timer for loan to be granted
+    setTimeout(function () {
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(new Date());
+      updateUI(currentAccount);
+    }, 3000);
   } else {
     console.log("Loan request rejected");
   }
@@ -360,6 +363,12 @@ const calcDisplayCurrentBalance = function (acc) {
 };
 
 // LECTURES
+
+// setInterval - sets and interval in which the function will be executed again and again
+setInterval(function () {
+  const now = new Date();
+  console.log(`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
+}, 1000);
 
 // Operations with dates
 /*
