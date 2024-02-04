@@ -147,6 +147,9 @@ btnLoan.addEventListener("click", function (e) {
   } else {
     console.log("Loan request rejected");
   }
+
+  clearInterval(timer);
+  timer = startLogOutTimer();
   console.log(condition);
 });
 
@@ -175,6 +178,34 @@ btnClose.addEventListener("click", function (e) {
   }
 });
 
+// Timer
+
+const startLogOutTimer = function () {
+  //Set time to 5 minutes
+  let time = 30;
+
+  const tick = function () {
+    //In each call, print the remaining time to UI
+    let minutes = String(Math.trunc(time / 60)).padStart(2, 0);
+    let seconds = String(time % 60).padStart(2, 0);
+    labelTimer.textContent = `${minutes}:${seconds}`;
+    // When clock hits 0 seconds, stop the timer and log the user out
+    if (time === 0) {
+      clearInterval(timer);
+      //Logging user out
+      containerApp.style.opacity = 0;
+      currentAccount = "";
+      labelWelcome.textContent = "Log in to get started";
+    }
+    // Decrease 1s
+    time--;
+  };
+  // Call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
 // TRANSFERS
 
 btnTransfer.addEventListener("click", function (e) {
@@ -197,12 +228,16 @@ btnTransfer.addEventListener("click", function (e) {
     receiver.movementsDates.push(new Date().toISOString());
     updateUI(currentAccount);
   }
+  clearInterval(timer);
+  timer = startLogOutTimer();
 });
 
-let currentAccount = "";
+let currentAccount = "",
+  timer;
 
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
+
   console.log(currentAccount.locale);
   // Checking the account that's trying to log in
   currentAccount = accounts.find(function (acc) {
@@ -230,6 +265,8 @@ btnLogin.addEventListener("click", function (e) {
     currentAccount.locale,
     options
   ).format(now);
+  if (timer) clearInterval(timer);
+  timer = startLogOutTimer();
 });
 
 // UPDATE UI
