@@ -33,6 +33,8 @@ document.addEventListener("keydown", function (e) {
 const header = document.querySelector(".header");
 const allSections = document.querySelectorAll(".section");
 const allButtons = document.getElementsByTagName("button");
+const btnScrollTo = document.querySelector(".btn--scroll-to");
+const section1 = document.getElementById("section--1");
 
 // Create and insert elements
 //. insertAdjacentHTML
@@ -42,6 +44,25 @@ message.classList.add("cookie-message");
 message.innerHTML =
   'We use cookies to improve security and user experience! <button class="btn btn--close-cookie">Got it!</button> ';
 header.append(message);
+
+// Smooth scrooling
+
+// Old school way:
+/*
+btnScrollTo.addEventListener("click", function () {
+  const s1coords = section1.getBoundingClientRect();
+  window.scrollTo({
+    left: s1coords.left + window.pageXOffset,
+    top: s1coords.top + window.pageYOffset,
+    behavior: "smooth",
+  });
+});*/
+
+// Modern way
+
+btnScrollTo.addEventListener("click", function () {
+  section1.scrollIntoView({ behavior: "smooth" });
+});
 
 // Delete elements
 document
