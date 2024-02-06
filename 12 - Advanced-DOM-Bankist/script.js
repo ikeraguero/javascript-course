@@ -35,6 +35,7 @@ const allSections = document.querySelectorAll(".section");
 const allButtons = document.getElementsByTagName("button");
 const btnScrollTo = document.querySelector(".btn--scroll-to");
 const section1 = document.getElementById("section--1");
+const navLinks = document.querySelector(".nav__links");
 
 // Create and insert elements
 //. insertAdjacentHTML
@@ -44,6 +45,27 @@ message.classList.add("cookie-message");
 message.innerHTML =
   'We use cookies to improve security and user experience! <button class="btn btn--close-cookie">Got it!</button> ';
 header.append(message);
+
+// Smooth Scrolling with bubbling concept
+
+navLinks.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (e.target.classList.contains("nav__link")) {
+    const section = e.target.getAttribute("href");
+    const goTo = document.querySelector(`${section}`);
+    console.log(goTo);
+    goTo.scrollIntoView({ behavior: "smooth" });
+  }
+});
+
+// Bubbling on events - events that happen on the child element will 'bubble up' to the parentselements,
+// so it's like they also happened in the parent element.
+
+// Event Handlers
+
+//.addEventListener
+//onEvent
+//.removeEventListener
 
 // Smooth scrooling
 
