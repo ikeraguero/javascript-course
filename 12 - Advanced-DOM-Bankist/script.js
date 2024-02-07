@@ -39,6 +39,7 @@ const navLinks = document.querySelector(".nav__links");
 const tabContainer = document.querySelector(".operations__tab-container");
 const tabs = document.querySelectorAll(".operations__tab");
 const contents = document.querySelectorAll(".operations__content");
+const nav = document.querySelector(".nav");
 
 // Create and insert elements
 //. insertAdjacentHTML
@@ -48,6 +49,31 @@ message.classList.add("cookie-message");
 message.innerHTML =
   'We use cookies to improve security and user experience! <button class="btn btn--close-cookie">Got it!</button> ';
 header.append(message);
+
+// Fade Nav When Hover
+
+nav.addEventListener("mouseover", function (e) {
+  if (e.target.classList.contains("nav__link")) {
+    const link = e.target;
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+    siblings.forEach((siblings) => {
+      if (siblings != link) siblings.style.opacity = 0.5;
+    });
+    console.log(siblings);
+  }
+  console.log(e.target);
+});
+nav.addEventListener("mouseout", function (e) {
+  if (e.target.classList.contains("nav__link")) {
+    const link = e.target;
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+    siblings.forEach((siblings) => {
+      if (siblings != link) siblings.style.opacity = 1;
+    });
+    console.log(siblings);
+  }
+  console.log(e.target);
+});
 
 // Operations Tabs
 
@@ -66,8 +92,6 @@ tabContainer.addEventListener("click", function (e) {
     `.operations__content--${clicked.getAttribute("data-tab")}`
   );
   contentDisplayed.classList.add("operations__content--active");
-
-  console.log(clicked);
 });
 
 // Smooth Scrolling with bubbling concept
@@ -77,7 +101,6 @@ navLinks.addEventListener("click", function (e) {
   if (e.target.classList.contains("nav__link")) {
     const section = e.target.getAttribute("href");
     const goTo = document.querySelector(`${section}`);
-    console.log(goTo);
     goTo.scrollIntoView({ behavior: "smooth" });
   }
 });
