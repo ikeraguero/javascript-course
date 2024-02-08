@@ -40,6 +40,7 @@ const tabContainer = document.querySelector(".operations__tab-container");
 const tabs = document.querySelectorAll(".operations__tab");
 const contents = document.querySelectorAll(".operations__content");
 const nav = document.querySelector(".nav");
+const navHeight = nav.getBoundingClientRect().height;
 const logo = document.querySelector(".nav__logo");
 
 // Create and insert elements
@@ -50,6 +51,27 @@ message.classList.add("cookie-message");
 message.innerHTML =
   'We use cookies to improve security and user experience! <button class="btn btn--close-cookie">Got it!</button> ';
 header.append(message);
+
+// Sticky navigation
+
+const stickyNav = (entries) => {
+  // Collecting the event
+  const [entry] = entries;
+  console.log(entry);
+  // Condition for nav to become sticky
+  if (!entry.isIntersecting) {
+    nav.classList.add("sticky");
+  } else {
+    nav.classList.remove("sticky");
+  }
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null, // in relation to viewport
+  treshold: 0, // event will fire when 0% of the element begins and finishes intersecting the viewport
+  rootMargin: `-${navHeight}px`,
+});
+console.log(headerObserver.observe(header));
 
 // Fade Nav When Hover
 
