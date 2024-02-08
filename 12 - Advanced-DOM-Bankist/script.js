@@ -52,12 +52,31 @@ message.innerHTML =
   'We use cookies to improve security and user experience! <button class="btn btn--close-cookie">Got it!</button> ';
 header.append(message);
 
+// Sections animation effect
+
+const unhideSection = (entries, observer) => {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove("section--hidden");
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(unhideSection, {
+  root: null,
+  treshold: 0.2,
+});
+
+allSections.forEach((section) => {
+  sectionObserver.observe(section);
+  section.classList.add("section--hidden");
+});
+
 // Sticky navigation
 
 const stickyNav = (entries) => {
   // Collecting the event
   const [entry] = entries;
-  console.log(entry);
+
   // Condition for nav to become sticky
   if (!entry.isIntersecting) {
     nav.classList.add("sticky");
