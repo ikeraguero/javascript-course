@@ -42,6 +42,7 @@ const contents = document.querySelectorAll(".operations__content");
 const nav = document.querySelector(".nav");
 const navHeight = nav.getBoundingClientRect().height;
 const logo = document.querySelector(".nav__logo");
+const allImgs = document.querySelectorAll(".features__img");
 
 // Create and insert elements
 //. insertAdjacentHTML
@@ -51,6 +52,27 @@ message.classList.add("cookie-message");
 message.innerHTML =
   'We use cookies to improve security and user experience! <button class="btn btn--close-cookie">Got it!</button> ';
 header.append(message);
+
+// Reveiling lazy loading images
+
+const unhideImg = (entries, observer) => {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener("load", function () {
+    entry.target.classList.remove("lazy-img");
+  });
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(unhideImg, {
+  root: null,
+  threshold: 0,
+});
+
+allImgs.forEach((img) => {
+  imgObserver.observe(img);
+});
 
 // Sections animation effect
 
