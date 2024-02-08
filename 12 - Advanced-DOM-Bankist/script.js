@@ -40,6 +40,7 @@ const tabContainer = document.querySelector(".operations__tab-container");
 const tabs = document.querySelectorAll(".operations__tab");
 const contents = document.querySelectorAll(".operations__content");
 const nav = document.querySelector(".nav");
+const logo = document.querySelector(".nav__logo");
 
 // Create and insert elements
 //. insertAdjacentHTML
@@ -52,28 +53,26 @@ header.append(message);
 
 // Fade Nav When Hover
 
-nav.addEventListener("mouseover", function (e) {
+const navFade = (e, opacity) => {
+  // Checking if the hover happened on an nav link
   if (e.target.classList.contains("nav__link")) {
-    const link = e.target;
-    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
-    siblings.forEach((siblings) => {
-      if (siblings != link) siblings.style.opacity = 0.5;
-    });
+    const hovered = e.target;
+    // Accessing all the siblings
+    const siblings = hovered.closest("nav").querySelectorAll(".nav__link");
+    console.log(hovered);
     console.log(siblings);
-  }
-  console.log(e.target);
-});
-nav.addEventListener("mouseout", function (e) {
-  if (e.target.classList.contains("nav__link")) {
-    const link = e.target;
-    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
-    siblings.forEach((siblings) => {
-      if (siblings != link) siblings.style.opacity = 1;
+    // Changing the opacity if the element it's not the one which was hovered
+    siblings.forEach((sibling) => {
+      if (sibling != hovered) {
+        sibling.style.opacity = logo.style.opacity = opacity;
+      }
     });
-    console.log(siblings);
   }
-  console.log(e.target);
-});
+};
+
+nav.addEventListener("mouseover", (e) => navFade(e, 0.5));
+
+nav.addEventListener("mouseout", (e) => navFade(e, 1));
 
 // Operations Tabs
 
