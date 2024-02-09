@@ -47,6 +47,7 @@ const allSlides = document.querySelectorAll(".slide");
 const slider = document.querySelector(".slider");
 const btnLeft = document.querySelector(".slider__btn--left");
 const btnRight = document.querySelector(".slider__btn--right");
+const dotContainer = document.querySelector(".dots");
 
 // Create and insert elements
 //. insertAdjacentHTML
@@ -68,7 +69,7 @@ let curSlide = 0;
 let maxSlide = allSlides.length;
 // Implement next slide logic - "current slide will always be the one with 0% of translateX"
 
-const goToSlide = function () {
+const goToSlide = function (curSlide) {
   allSlides.forEach((slide, i) => {
     slide.style.transform = `TranslateX(${100 * (i - curSlide)}%)`;
   });
@@ -81,7 +82,8 @@ const nextSlide = function () {
     curSlide = 0;
   }
 
-  goToSlide();
+  goToSlide(curSlide);
+  activateDots(curSlide);
 };
 btnRight.addEventListener("click", nextSlide);
 // Implement previous slide logic
@@ -92,9 +94,50 @@ const prevSlide = function () {
   } else {
     curSlide = maxSlide - 1;
   }
-  goToSlide();
+  goToSlide(curSlide);
+  activateDots(curSlide);
 };
 btnLeft.addEventListener("click", prevSlide);
+
+// Implementing keyword events
+document.addEventListener("keydown", function (e) {
+  if (e.key === "ArrowRight") nextSlide();
+  else if (e.key == "ArrowLeft") prevSlide();
+});
+
+// Implementing slides dots
+
+const createDots = function () {
+  allSlides.forEach((_, i) => {
+    dotContainer.insertAdjacentHTML(
+      "beforeend",
+      `<button class=dots__dot data-slide=${i}></button>`
+    );
+  });
+};
+
+createDots();
+
+const activateDots = function (slide) {
+  const allDots = document.querySelectorAll(".dots__dot");
+
+  allDots.forEach((dot) => {
+    dot.classList.remove("dots__dot--active");
+  });
+  document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add("dots__dot--active");
+};
+activateDots(0);
+// Add event listener to cointainer - event delegation
+
+dotContainer.addEventListener("click", function (e) {
+  if (e.target.classList.contains("dots__dot")) {
+    const dotClicked = e.target.dataset.slide;
+    goToSlide(dotClicked);
+    activateDots(dotClicked);
+  } else return;
+});
 
 // Reveiling lazy loading images
 
