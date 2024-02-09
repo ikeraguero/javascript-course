@@ -43,6 +43,10 @@ const nav = document.querySelector(".nav");
 const navHeight = nav.getBoundingClientRect().height;
 const logo = document.querySelector(".nav__logo");
 const allImgs = document.querySelectorAll(".features__img");
+const allSlides = document.querySelectorAll(".slide");
+const slider = document.querySelector(".slider");
+const btnLeft = document.querySelector(".slider__btn--left");
+const btnRight = document.querySelector(".slider__btn--right");
 
 // Create and insert elements
 //. insertAdjacentHTML
@@ -52,6 +56,45 @@ message.classList.add("cookie-message");
 message.innerHTML =
   'We use cookies to improve security and user experience! <button class="btn btn--close-cookie">Got it!</button> ';
 header.append(message);
+
+// Sliders
+slider.style.overflow = "visible";
+// Set sliders temporarily to images
+allSlides.forEach((slide, i) => {
+  slide.style.transform = `TranslateX(${100 * i}%)`;
+});
+// Set starting condition
+let curSlide = 0;
+let maxSlide = allSlides.length;
+// Implement next slide logic - "current slide will always be the one with 0% of translateX"
+
+const goToSlide = function () {
+  allSlides.forEach((slide, i) => {
+    slide.style.transform = `TranslateX(${100 * (i - curSlide)}%)`;
+  });
+};
+
+const nextSlide = function () {
+  if (curSlide < maxSlide - 1) {
+    curSlide++;
+  } else {
+    curSlide = 0;
+  }
+
+  goToSlide();
+};
+btnRight.addEventListener("click", nextSlide);
+// Implement previous slide logic
+
+const prevSlide = function () {
+  if (curSlide > 0) {
+    curSlide--;
+  } else {
+    curSlide = maxSlide - 1;
+  }
+  goToSlide();
+};
+btnLeft.addEventListener("click", prevSlide);
 
 // Reveiling lazy loading images
 
@@ -79,7 +122,7 @@ allImgs.forEach((img) => {
 const unhideSection = (entries, observer) => {
   const [entry] = entries;
   if (!entry.isIntersecting) return;
-  entry.target.classList.remove("section--hidden");
+  //entry.target.classList.remove("section--hidden");
   observer.unobserve(entry.target);
 };
 
@@ -90,7 +133,7 @@ const sectionObserver = new IntersectionObserver(unhideSection, {
 
 allSections.forEach((section) => {
   sectionObserver.observe(section);
-  section.classList.add("section--hidden");
+  // section.classList.add("section--hidden");
 });
 
 // Sticky navigation
