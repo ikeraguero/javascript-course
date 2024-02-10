@@ -460,7 +460,7 @@ h4 {
 
 .dots__dot--active {
   /* background-color: #fff; */
-  background-color: red;
+  background-color: #777;
   opacity: 1;
 }
 

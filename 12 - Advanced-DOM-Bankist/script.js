@@ -59,16 +59,44 @@ message.innerHTML =
 header.append(message);
 
 // Sliders
-slider.style.overflow = "visible";
 // Set sliders temporarily to images
 allSlides.forEach((slide, i) => {
   slide.style.transform = `TranslateX(${100 * i}%)`;
 });
+
 // Set starting condition
 let curSlide = 0;
 let maxSlide = allSlides.length;
-// Implement next slide logic - "current slide will always be the one with 0% of translateX"
 
+// Implementing initial conditions (creating dots, activating dots)
+const createDots = function () {
+  allSlides.forEach((_, i) => {
+    dotContainer.insertAdjacentHTML(
+      "beforeend",
+      `<button class=dots__dot data-slide=${i}></button>`
+    );
+  });
+};
+
+const activateDots = function (slide) {
+  const allDots = document.querySelectorAll(".dots__dot");
+
+  allDots.forEach((dot) => {
+    dot.classList.remove("dots__dot--active");
+  });
+  document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add("dots__dot--active");
+};
+
+const init = () => {
+  createDots();
+  activateDots(0);
+};
+
+init();
+
+// Implement next slide logic - "current slide will always be the one with 0% of translateX"
 const goToSlide = function (curSlide) {
   allSlides.forEach((slide, i) => {
     slide.style.transform = `TranslateX(${100 * (i - curSlide)}%)`;
@@ -86,8 +114,8 @@ const nextSlide = function () {
   activateDots(curSlide);
 };
 btnRight.addEventListener("click", nextSlide);
-// Implement previous slide logic
 
+// Implement previous slide logic
 const prevSlide = function () {
   if (curSlide > 0) {
     curSlide--;
@@ -105,32 +133,7 @@ document.addEventListener("keydown", function (e) {
   else if (e.key == "ArrowLeft") prevSlide();
 });
 
-// Implementing slides dots
-
-const createDots = function () {
-  allSlides.forEach((_, i) => {
-    dotContainer.insertAdjacentHTML(
-      "beforeend",
-      `<button class=dots__dot data-slide=${i}></button>`
-    );
-  });
-};
-
-createDots();
-
-const activateDots = function (slide) {
-  const allDots = document.querySelectorAll(".dots__dot");
-
-  allDots.forEach((dot) => {
-    dot.classList.remove("dots__dot--active");
-  });
-  document
-    .querySelector(`.dots__dot[data-slide="${slide}"]`)
-    .classList.add("dots__dot--active");
-};
-activateDots(0);
 // Add event listener to cointainer - event delegation
-
 dotContainer.addEventListener("click", function (e) {
   if (e.target.classList.contains("dots__dot")) {
     const dotClicked = e.target.dataset.slide;
