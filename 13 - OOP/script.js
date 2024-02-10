@@ -1,5 +1,24 @@
 "use strict";
 
+// Class declaration
+
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  // Methods will be added to .prototype property
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.firstName}`);
+  }
+}
+
+/*
 // Constructor function
 
 const Person = function (firstName, birthYear) {
@@ -38,3 +57,4 @@ console.log(iker.__proto__.__proto__);
 console.log(iker.__proto__.__proto__.__proto__);
 
 console.dir(Person.prototype.constructor);
+*/
