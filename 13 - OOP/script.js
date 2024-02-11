@@ -53,6 +53,7 @@ const PersonProto = {
   init(firstName, lastName, birthYear) {
     this.firstName = firstName;
     this.lastName = lastName;
+    this.birthYear = birthYear;
   },
 };
 
