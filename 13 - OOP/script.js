@@ -1,5 +1,40 @@
 "use strict";
 
+// INHERITANCE BETWEEN CLASSES
+
+// Constructor functions
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  const now = new Date();
+  console.log(now.getFullYear() - this.birthYear);
+};
+
+console.log(Person);
+console.log(Person.prototype);
+
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+//Linking Student and Person prototype, because Student is supposed to be a child of Person
+
+Student.prototype = Object.create(Person.prototype);
+console.log(Student);
+
+Student.prototype.introduce = function () {
+  console.log(`Hi, my name is ${this.firstName} and I study ${this.course}`);
+};
+
+const kevin = new Student("Kevin", 1997, "Computer Science");
+kevin.introduce();
+kevin.calcAge();
+/*
 // Class declaration
 
 class PersonCl {
