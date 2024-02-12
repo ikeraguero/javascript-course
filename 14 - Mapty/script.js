@@ -23,12 +23,30 @@ if (navigator.geolocation) {
       const coords = [latitude, longitude];
 
       const map = L.map("map").setView(coords, 15);
-
+      console.log(map);
       L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(map);
+
+      // Displaying marker when we click in a region on the map
+      map.on("click", function (e) {
+        const { lat, lng } = e.latlng;
+        L.marker([lat, lng])
+          .addTo(map)
+          .bindPopup(
+            L.popup({
+              maxWidth: 250,
+              minWidth: 100,
+              autoClose: false,
+              closeOnClick: false,
+              className: "running-popup",
+            })
+          )
+          .setPopupContent("Workout")
+          .openPopup();
+      });
     },
     function () {
       alert("Coudn't collect location data");
