@@ -1,7 +1,54 @@
 "use strict";
 
+// MORE ABOBOUT ES6 CLASSES
+
+class Account {
+  //Public fields (instances)
+  locale = navigator.language;
+
+  //Private fields (instances)
+  #movements = [];
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    //Protected properties
+    this.#pin = pin;
+
+    console.log(`Thank you for opening an account, ${owner}!`);
+  }
+
+  // Public interface
+
+  // Public methods
+  getMovements() {
+    return this.#movements;
+  }
+  deposit(val) {
+    this.#movements.push(val);
+  }
+  withdraw(val) {
+    this._deposit(-val); //They essentialy do the same thing
+  }
+
+  requestLoan(val) {
+    if (this._approveLoan(val)) {
+      this.deposit(val);
+    }
+  }
+  // Private methods
+  _approveLoan(val) {
+    return true;
+  }
+}
+
+const acc1 = new Account("Max", "EUR", 1111);
+console.log(acc1);
+
 // INHERITANCE BETWEEN CLASSES
 
+/*
 // Object.create
 
 const PersonProto = {
