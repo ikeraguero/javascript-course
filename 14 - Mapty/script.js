@@ -12,16 +12,15 @@ const inputElevation = document.querySelector(".form__input--elevation");
 
 let map, mapEvent;
 
-const validInput = (...inputs) => inputs.every((inp) => Number.isFinite(inp));
-console.log(validInput(NaN, NaN, NaN));
-
 // Classes
 
 ////////////////////////////////////////////////////////////////////////
 // APPLICATION ARCHITETURE //
+
 class App {
   #map;
   #mapEvent;
+  #mapZoomLevel = 15;
   #workouts = [];
   constructor() {
     this._getPosition();
@@ -32,6 +31,13 @@ class App {
     // Switching between cadence and elevation according to activity selected on type option
 
     inputType.addEventListener("change", this._toggleElevationField);
+
+    // Moving to marker when workout is clicked
+
+    containerWorkouts.addEventListener(
+      "click",
+      this._moveToPosition.bind(this)
+    );
   }
 
   // methods
@@ -48,7 +54,7 @@ class App {
 
     const coords = [latitude, longitude];
     //Loading map
-    this.#map = L.map("map").setView(coords, 15);
+    this.#map = L.map("map").setView(coords, this.#mapZoomLevel);
     console.log(map);
     L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
       maxZoom: 19,
@@ -162,7 +168,7 @@ class App {
 
   _renderWorkout(workout) {
     let html = `<li class="workout workout--${workout.type}" data-id="${
-      workout.type
+      workout.id
     }">
     <h2 class="workout__title">${workout.description}</h2>
     <div class="workout__details">
@@ -207,11 +213,32 @@ class App {
     }
     form.insertAdjacentHTML("afterend", html);
   }
+
+  _moveToPosition(e) {
+    const workoutEl = e.target.closest(".workout");
+    console.log(workoutEl);
+
+    if (!workoutEl) return;
+
+    const workout = this.#workouts.find(function (work) {
+      return work.id === workoutEl.dataset.id;
+    });
+    console.log(workout);
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+    //Counting the clicks
+    workout._click();
+  }
 }
 
 class Workout {
   date = new Date();
   id = (Date.now() + "").slice(-10);
+  clicks = 0;
   constructor(coords, duration, distance) {
     this.coords = coords;
     this.distance = distance; // km
@@ -237,6 +264,9 @@ class Workout {
     this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
       months[this.date.getMonth()]
     } ${this.date.getDate()}`;
+  }
+  _click() {
+    this.clicks++;
   }
 }
 
