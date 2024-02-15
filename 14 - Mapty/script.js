@@ -38,6 +38,9 @@ class App {
       "click",
       this._moveToPosition.bind(this)
     );
+
+    // Get data from local storage
+    this._getLocalStorage();
   }
 
   // methods
@@ -64,6 +67,7 @@ class App {
 
     // Handling map click
     this.#map.on("click", this._showForm.bind(this));
+    this._renderWorkoutMarker();
   }
   _showForm(mapE) {
     this.#mapEvent = mapE;
@@ -90,7 +94,7 @@ class App {
 
     const allPositive = function (...inputs) {
       return inputs.every((inp) => {
-        return inp >= 0;
+        return inp > 0;
       });
     };
 
@@ -140,6 +144,9 @@ class App {
 
     // Hide form
     this._hideForm();
+
+    // Set local storage
+    this._setLocalStorage();
   }
   _renderWorkoutMarker(workout) {
     L.marker(workout.coords)
@@ -232,6 +239,20 @@ class App {
     });
     //Counting the clicks
     workout._click();
+  }
+  _setLocalStorage() {
+    localStorage.setItem("workout", JSON.stringify(this.#workouts)); // converts to string in order to be stored
+  }
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("workout")); // converts back to objects
+
+    if (!data) return;
+
+    this.#workouts = data;
+
+    this.#workouts.forEach((work) => {
+      this._renderWorkout(work);
+    });
   }
 }
 
