@@ -4,9 +4,24 @@ const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
 ///////////////////////////////////////
+// MODERN WAY OF MAKING AJAX CALLS
 
-const renderCountry = function () {
-  const html = `<article class="country">
+const request = fetch(
+  "https://countries-api-836d.onrender.com/countries/name/brazil"
+); // build promise
+console.log(request);
+
+const getCountryData = function (country) {
+  fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`)
+  .then(response => response.json())
+  .then(data => renderCountry(data[0]))
+
+getCountryData("brazil");
+
+// OLD SCHOOL WAY
+
+const renderCountry = function (data, classification) {
+  const html = `<article class="country ${classification}">
   <img class="country__img" src="${data.flags.png}" />
   <div class="country__data">
     <h3 class="country__name">${data.name}</h3>
@@ -30,14 +45,22 @@ const getCountryCards = function (country) {
 
   request.addEventListener("load", function () {
     const [data] = JSON.parse(this.responseText);
-    console.log(data);
+    const [neighbour] = data.borders;
+    // Render country 1
+    renderCountry(data);
+
+    if (!neighbour) return;
+
+    //AJAX call country 2
+
+    const request2 = new XMLHttpRequest();
+    request2.open("GET", `https://restcountries.com/v2/alpha/${neighbour}`);
+    request2.send();
+
+    request2.addEventListener("load", function () {
+      const data2 = JSON.parse(this.responseText);
+      renderCountry(data2, "neighbour");
+    });
   });
 };
 
-getCountryCards("belgium");
-getCountryCards("spain");
-getCountryCards("japan");
-getCountryCards("gb");
-getCountryCards("argentina");
-getCountryCards("arabia");
-getCountryCards("nederland");
