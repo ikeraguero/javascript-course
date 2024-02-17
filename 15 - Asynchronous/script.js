@@ -5,16 +5,8 @@ const countriesContainer = document.querySelector(".countries");
 
 ///////////////////////////////////////
 
-const getCountryCards = function (country) {
-  const request = new XMLHttpRequest();
-  request.open("GET", `https://restcountries.com/v2/name/${country}`);
-  request.send();
-
-  request.addEventListener("load", function () {
-    const [data] = JSON.parse(this.responseText);
-    console.log(data);
-
-    const html = `<article class="country">
+const renderCountry = function () {
+  const html = `<article class="country">
   <img class="country__img" src="${data.flags.png}" />
   <div class="country__data">
     <h3 class="country__name">${data.name}</h3>
@@ -27,8 +19,18 @@ const getCountryCards = function (country) {
     </div>
     </article>`;
 
-    countriesContainer.insertAdjacentHTML("beforeend", html);
-    countriesContainer.style.opacity = 1;
+  countriesContainer.insertAdjacentHTML("beforeend", html);
+  countriesContainer.style.opacity = 1;
+};
+
+const getCountryCards = function (country) {
+  const request = new XMLHttpRequest();
+  request.open("GET", `https://restcountries.com/v2/name/${country}`);
+  request.send();
+
+  request.addEventListener("load", function () {
+    const [data] = JSON.parse(this.responseText);
+    console.log(data);
   });
 };
 
