@@ -3,6 +3,20 @@
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
+//EVENT LOOP IN PRATICE
+
+console.log("Test start");
+setTimeout(() => console.log("0 sec timer", 0));
+Promise.resolve("Resolved promise 1").then((res) => {
+  console.log(res); // setTimeout's callback will only be executed once this microtask is finished
+});
+
+Promise.resolve("Resolved promise 1").then((res) => {
+  for (let i = 0; i < 10000; i++) {}
+  console.log(res); // setTimeout's callback will only be executed once this microtask is finished
+});
+
+/*
 btn.addEventListener("click", function () {
   getCountryData("brazlll");
 });
