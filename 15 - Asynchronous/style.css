@@ -27,14 +27,18 @@ body {
   overflow-x: auto;
 }
 
+.err {
+  align-self: center;
+}
+
 .countries {
   /* margin-bottom: 8rem; */
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
   row-gap: 8rem;
   font-size: 2rem;
   opacity: 0;
   transition: opacity 1s;
+  align-content: center;
 }
 
 .country {

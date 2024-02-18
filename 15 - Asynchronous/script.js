@@ -3,20 +3,54 @@
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
+btn.addEventListener("click", function () {
+  getCountryData("brazlll");
+});
+
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentHTML(
+    "beforeend",
+    `<div class="err">${msg}</div>`
+  );
+};
+
+const getJSON = function (url, errorMsg) {
+  fetch(url).then((response) => {
+    if (!response.ok) {
+      throw new Error(errorMsg);
+    }
+    return response.json();
+  });
+};
+
 ///////////////////////////////////////
 // MODERN WAY OF MAKING AJAX CALLS
-
-const request = fetch(
-  "https://countries-api-836d.onrender.com/countries/name/brazil"
-); // build promise
-console.log(request);
-
 const getCountryData = function (country) {
-  fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`)
-  .then(response => response.json())
-  .then(data => renderCountry(data[0]))
+  getJSON(
+    `https://countries-api-836d.onrender.com/countries/name/${country}`,
+    "Country not found!"
+  )
+    .then((data) => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
 
-getCountryData("brazil");
+      if (!neighbour) {
+        throw new Error("Neighbour not found!");
+      }
+
+      return getJSON(
+        `https://countries-api-836d.onrender.com/countries/name/${neighbour}`,
+        "Country not found!"
+      );
+    })
+    .then((data) => renderCountry(data[0], "neighbour"))
+    .catch((err) => {
+      renderError(`Something went wrong. ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+};
 
 // OLD SCHOOL WAY
 
@@ -38,6 +72,7 @@ const renderCountry = function (data, classification) {
   countriesContainer.style.opacity = 1;
 };
 
+/*
 const getCountryCards = function (country) {
   const request = new XMLHttpRequest();
   request.open("GET", `https://restcountries.com/v2/name/${country}`);
@@ -64,3 +99,36 @@ const getCountryCards = function (country) {
   });
 };
 
+*/
+
+const whereAmI = function (lat, lng) {
+  fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=-${lng}&localityLanguage=en`
+  )
+    .then((response) => {
+      if (!response) {
+        throw new Error("Amount of requests per second exceeded");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      console.log(`You are in ${data.city}, ${data.countryName}`);
+
+      return fetch(
+        `https://countries-api-836d.onrender.com/countries/name/${data.countryName}`
+      );
+    })
+    .then((response) => {
+      if (!response) {
+        throw new Error(`Country not found! ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => renderCountry(data[0]))
+    .catch((err) => {
+      console.err(err.message);
+    });
+};
+
+whereAmI(-26.329999923706055, -48.84000015258789);
