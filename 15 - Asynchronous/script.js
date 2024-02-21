@@ -3,6 +3,47 @@
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
+// CREATING PROMISES
+
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log("Lottery draw is happening...");
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve("You WON!");
+    } else {
+      reject(new Error("You lost!"));
+    }
+  }, 2000);
+});
+
+lotteryPromise
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+// Promisifying setTimeout
+
+const wait = function (secs) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, secs * 1000);
+  });
+};
+
+wait(1)
+  .then(() => {
+    console.log("I waited for 1 seconds");
+    return wait(1);
+  })
+  .then(() => {
+    console.log("I waited for 2 seconds");
+    return wait(1);
+  })
+  .then(() => {
+    console.log("I waited for 3 seconds");
+    return wait(1);
+  })
+  .then(() => console.log("I waited for 4 seconds"));
+
+/*
 //EVENT LOOP IN PRATICE
 
 console.log("Test start");
@@ -11,7 +52,7 @@ Promise.resolve("Resolved promise 1").then((res) => {
   console.log(res); // setTimeout's callback will only be executed once this microtask is finished
 });
 
-Promise.resolve("Resolved promise 1").then((res) => {
+Promise.resolve("Resolved promise 2").then((res) => {
   for (let i = 0; i < 10000; i++) {}
   console.log(res); // setTimeout's callback will only be executed once this microtask is finished
 });
@@ -114,6 +155,7 @@ const getCountryCards = function (country) {
 };
 
 */
+/*
 
 const whereAmI = function (lat, lng) {
   fetch(
@@ -146,3 +188,4 @@ const whereAmI = function (lat, lng) {
 };
 
 whereAmI(-26.329999923706055, -48.84000015258789);
+*/
