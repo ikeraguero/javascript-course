@@ -12,19 +12,34 @@ const getPosition = function () {
 };
 
 const whereAmI = async function () {
-  const position = await getPosition();
-  const { latitude: lat, longitude: lng } = position.coords;
-  const geocodeData = await fetch(
-    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=-${lng}&localityLanguage=en`
-  ).then((res) => res.json());
+  try {
+    //Getting position
+    const position = await getPosition();
+    const { latitude: lat, longitude: lng } = position.coords;
 
-  const res = await fetch(
-    `https://countries-api-836d.onrender.com/countries/name/${geocodeData.countryName}`
-  );
+    //Reverse geocoding
+    const geocodeData = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=-${lng}&localityLanguage=en`
+    ).then((res) => res.json());
+    if (!geocodeData.response) {
+      throw new Error("Problem getting location data");
+    }
 
-  const data = await res.json();
+    //Getting country's data
+    const res = await fetch(
+      `https://countries-api-836d.onrender.com/countries/name/${geocodeData.countryName}`
+    );
+    if (!res.response) {
+      throw new Error("Problem getting country data");
+    }
 
-  renderCountry(data[0]);
+    const data = await res.json();
+
+    //Displaying
+    renderCountry(data[0]);
+  } catch {
+    console.log(error.message);
+  }
 };
 
 btn.addEventListener("click", whereAmI);
