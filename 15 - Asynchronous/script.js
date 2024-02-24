@@ -3,6 +3,35 @@
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
+const getJSON = function (url, errorMsg) {
+  return fetch(url).then((response) => {
+    if (!response.ok) {
+      throw new Error(errorMsg);
+    }
+    return response.json();
+  });
+};
+
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    const data = await Promise.all([
+      getJSON(`https://countries-api-836d.onrender.com/countries/name/${c1}`),
+      getJSON(`https://countries-api-836d.onrender.com/countries/name/${c2}`),
+      getJSON(`https://countries-api-836d.onrender.com/countries/name/${c3}`),
+    ]);
+    console.log(data);
+    const countries = data.map((c) => {
+      return c[0].capital;
+    });
+    console.log(countries);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+get3Countries("belgium", "norway", "brazil");
+
+/*
 // ASYNC and AWAIT
 
 const getPosition = function () {
@@ -21,7 +50,7 @@ const whereAmI = async function () {
     const geocodeData = await fetch(
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=-${lng}&localityLanguage=en`
     ).then((res) => res.json());
-    if (!geocodeData.response) {
+    if (!geocodeData) {
       throw new Error("Problem getting location data");
     }
 
@@ -29,18 +58,29 @@ const whereAmI = async function () {
     const res = await fetch(
       `https://countries-api-836d.onrender.com/countries/name/${geocodeData.countryName}`
     );
-    if (!res.response) {
+    if (!res.ok) {
       throw new Error("Problem getting country data");
     }
 
     const data = await res.json();
-
     //Displaying
     renderCountry(data[0]);
-  } catch {
-    console.log(error.message);
+    return `You are in ${geocodeData.city}, ${geocodeData.countryName}`;
+  } catch (err) {
+    console.log(err.message);
+    throw err;
   }
 };
+console.log("1: Will get location");
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`2: ${city}`);
+  } catch (err) {
+    console.log(`2: ${err.message}`);
+  }
+  console.log("3: Finished getting location");
+})();
 
 btn.addEventListener("click", whereAmI);
 
