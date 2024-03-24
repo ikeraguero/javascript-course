@@ -52,3 +52,5 @@ return {
 })()
 ShoppingCart2.addToCart("pineapple", 3)
 console.log(ShoppingCart2.cart);
+
+import { cloneDeep } from 'lodash-es';
