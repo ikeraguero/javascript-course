@@ -1,5 +1,7 @@
 /*import './shoppingCart.js';
 import { addToCart } from './shoppingCart.js'; */
+import 'regenerator-runtime/runtime'
+import 'core-js/stable'
 import add, {cart} from './shoppingCart.js'
 console.log("Importing")
 add("apples", 21)
