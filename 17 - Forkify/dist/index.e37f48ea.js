@@ -590,9 +590,10 @@ var _regeneratorRuntime = require("regenerator-runtime");
 var _modelJs = require("./model.js");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
-// https://forkify-api.herokuapp.com/v2
+var _searchViewJs = require("./views/searchView.js");
+var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
 ///////////////////////////////////////
-const showRecipe = async function() {
+const controlRecipe = async function() {
     try {
         const id = window.location.pathname.slice(1);
         console.log(id);
@@ -607,12 +608,25 @@ const showRecipe = async function() {
         (0, _recipeViewJsDefault.default).renderError();
     }
 };
+const controlSearchResults = async function() {
+    try {
+        // Getting query
+        const query = (0, _searchViewJsDefault.default).getQuery();
+        // Load search results
+        const results = await _modelJs.searchRecipe(query);
+        // Clearing search bar
+        console.log(results);
+    } catch (err) {
+        console.log(err);
+    }
+};
 const init = function() {
-    (0, _recipeViewJsDefault.default).addHandlerRender(showRecipe);
+    (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipe);
+    (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Y4A21","./views/recipeView.js":"l60JC"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -2465,10 +2479,15 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
+parcelHelpers.export(exports, "searchRecipe", ()=>searchRecipe);
 var _configJs = require("./config.js");
 var _helperJs = require("./helper.js");
 const state = {
-    recipe: {}
+    recipe: {},
+    search: {
+        query: "",
+        results: []
+    }
 };
 const loadRecipe = async function(id) {
     try {
@@ -2488,6 +2507,13 @@ const loadRecipe = async function(id) {
         throw err;
     }
 };
+const searchRecipe = async function(query) {
+    const queryResults = await (0, _helperJs.getJSON)(`${(0, _configJs.API_URL)}?search=${query}`);
+    state.search.query = query;
+    state.search.results = queryResults.data.recipes;
+    return state.search.results;
+};
+searchRecipe("pizza");
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs","./helper.js":"lVRAz"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -2963,6 +2989,29 @@ Fraction.primeFactors = function(n) {
 };
 module.exports.Fraction = Fraction;
 
-},{}]},["hycaY","aenu9"], "aenu9", "parcelRequire3a11")
+},{}],"9OQAM":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchView {
+    #parentEl = document.querySelector(".search");
+    inputField = document.querySelector(".search__field");
+    getQuery() {
+        const query = this.#parentEl.querySelector(".search__field").value;
+        this.clearInput();
+        return query;
+    }
+    addHandlerSearch(handler) {
+        this.#parentEl.addEventListener("submit", function(e) {
+            e.preventDefault();
+            handler();
+        });
+    }
+    clearInput() {
+        this.inputField.value = "";
+    }
+}
+exports.default = new SearchView;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["hycaY","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map

@@ -2,7 +2,11 @@ import {API_URL} from './config.js'
 import {getJSON } from './helper.js'
 
 export const state = {
-    recipe: {}
+    recipe: {},
+    search: {
+        query: '',
+        results: [],
+    }
 }
 
 export const loadRecipe = async function(id) {
@@ -24,3 +28,12 @@ export const loadRecipe = async function(id) {
     console.error(err)
 }
 }
+
+export const searchRecipe = async function(query) {
+    const queryResults = await getJSON(`${API_URL}?search=${query}`);
+    state.search.query = query;
+    state.search.results = queryResults.data.recipes;
+    return state.search.results;
+}
+
+searchRecipe('pizza')
