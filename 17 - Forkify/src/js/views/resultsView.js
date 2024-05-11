@@ -1,8 +1,8 @@
 import View from "./View.js"
-
+import icons from '../../img/icons.svg'
 class ResultsView extends View {
     _parentElement = document.querySelector(".results");
-    _errorMessage = 'No recapes found for your query! Please try again!';
+    _errorMessage = 'No recipes found for your query! Please try again!';
     _message = this._errorMessage;
 
 _generateMarkup() {
@@ -11,8 +11,8 @@ _generateMarkup() {
 }
 
 _generateMarkupPreview(result) {    
-    return `<<li class="preview">
-    <a class="preview__link preview__link--active" href="#${result.id}">
+    return `<li class="preview">
+    <a class="preview__link preview__link" href="#${result.id}">
       <figure class="preview__fig">
         <img src="${result.image_url}" alt="Test" />
       </figure>
