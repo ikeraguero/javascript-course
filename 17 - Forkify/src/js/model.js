@@ -35,5 +35,3 @@ export const searchRecipe = async function(query) {
     state.search.results = queryResults.data.recipes;
     return state.search.results;
 }
-
-searchRecipe('pizza')
