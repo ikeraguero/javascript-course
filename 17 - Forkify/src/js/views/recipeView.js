@@ -12,6 +12,19 @@ class RecipeView extends View {
         options.forEach(ev => window.addEventListener(ev, handler))
     }
 
+    addHandlerServings(handler) {
+      this._parentElement.addEventListener("click", function(e) {
+        const btn = e.target.closest(".btn--update-servings")
+        if(!btn) return;
+        console.log(btn);
+        
+        const goTo = +btn.dataset.goto
+
+        if(goTo > 0) handler(goTo);
+        
+      })
+    }
+
     
 
     _generateMarkup() {
@@ -33,16 +46,16 @@ class RecipeView extends View {
         <div class="recipe__info">
           <svg class="recipe__info-icon">
           </svg>
-          <span class="recipe__info-data recipe__info-data--people">4</span>
+          <span class="recipe__info-data recipe__info-data--people">${this._data.servings}</span>
           <span class="recipe__info-text">servings</span>
     
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--increase-servings">
+            <button class="btn--tiny btn--update-servings" data-goto=${this._data.servings-1}>
               <svg>
                 <use href="${icons}#icon-minus-circle"></use>
               </svg>
             </button>
-            <button class="btn--tiny btn--increase-servings">
+            <button class="btn--tiny btn--update-servings" data-goto=${this._data.servings+1}>
               <svg>
                 <use href="${icons}#icon-plus-circle"></use>
               </svg>

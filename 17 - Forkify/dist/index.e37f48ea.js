@@ -608,6 +608,7 @@ const controlRecipe = async function() {
         await _modelJs.loadRecipe(id);
         //Rendering recipe - view
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+        servingsController();
     } catch (err) {
         console.log(err);
         (0, _recipeViewJsDefault.default).renderError();
@@ -635,7 +636,14 @@ const paginationController = function(page) {
     // Rendering NEW pagination buttons
     (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
 };
+const servingsController = function(newServings) {
+    //Update the recipe servings (in state)
+    _modelJs.updateServings(newServings);
+    //Update the recipe view
+    (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+};
 const init = function() {
+    (0, _recipeViewJsDefault.default).addHandlerServings(servingsController);
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipe);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewJsDefault.default).addEventHandler(paginationController);
@@ -2497,6 +2505,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "searchRecipe", ()=>searchRecipe);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 var _configJs = require("./config.js");
 var _helperJs = require("./helper.js");
 const state = {
@@ -2516,11 +2525,11 @@ const loadRecipe = async function(id) {
             title: recipe.title,
             cookingTime: recipe.cooking_time,
             imageUrl: recipe.image_url,
+            servings: recipe.servings,
             ingredients: recipe.ingredients,
             publisher: recipe.publisher,
             sourceUrl: recipe.source_url
         };
-        console.log(recipe);
     } catch (err) {
         throw err;
     }
@@ -2536,6 +2545,13 @@ const getSearchResultsPage = function(page = 1) {
     const start = (page - 1) * state.search.resultsPerPage;
     const end = page * 10;
     return state.search.results.slice(start, end);
+};
+const updateServings = function(newServings = 1) {
+    state.recipe.ingredients.forEach((ing)=>{
+        ing.quantity = ing.quantity * newServings / state.recipe.servings;
+    });
+    state.recipe.servings = newServings;
+    console.log(state.recipe);
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs","./helper.js":"lVRAz"}],"k5Hzs":[function(require,module,exports) {
@@ -2592,6 +2608,15 @@ class RecipeView extends (0, _viewJsDefault.default) {
         ];
         options.forEach((ev)=>window.addEventListener(ev, handler));
     }
+    addHandlerServings(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--update-servings");
+            if (!btn) return;
+            console.log(btn);
+            const goTo = +btn.dataset.goto;
+            if (goTo > 0) handler(goTo);
+        });
+    }
     _generateMarkup() {
         return ` <figure class="recipe__fig">
         <img src="${this._data.imageUrl}" alt="Tomato" class="recipe__img" />
@@ -2611,16 +2636,16 @@ class RecipeView extends (0, _viewJsDefault.default) {
         <div class="recipe__info">
           <svg class="recipe__info-icon">
           </svg>
-          <span class="recipe__info-data recipe__info-data--people">4</span>
+          <span class="recipe__info-data recipe__info-data--people">${this._data.servings}</span>
           <span class="recipe__info-text">servings</span>
     
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--increase-servings">
+            <button class="btn--tiny btn--update-servings" data-goto=${this._data.servings - 1}>
               <svg>
                 <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
               </svg>
             </button>
-            <button class="btn--tiny btn--increase-servings">
+            <button class="btn--tiny btn--update-servings" data-goto=${this._data.servings + 1}>
               <svg>
                 <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
               </svg>
@@ -3097,8 +3122,6 @@ class PaginationView extends (0, _viewJsDefault.default) {
             const btn = e.target.closest(".btn--inline");
             if (!btn) return;
             const goToPage = +btn.dataset.goto;
-            console.log(btn);
-            console.log(goToPage);
             handler(goToPage);
         });
     }
