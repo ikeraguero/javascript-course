@@ -17,7 +17,6 @@ if(module.hot) {
 const controlRecipe = async function() {
   try{
     const id = window.location.hash.slice(1);
-    console.log(id);
     
     if(!id) return;
     recipeView.renderSpinner();
@@ -25,12 +24,12 @@ const controlRecipe = async function() {
       // Update search results
     resultsView.update(model.getSearchResultsPage())
     bookmarksView.update(model.state.bookmarks)
+
     // Loading recipe - model
     await model.loadRecipe(id)
     
     //Rendering recipe - view
     recipeView.render(model.state.recipe);
-    servingsController()
   } catch(err) {
     console.log(err);
     recipeView.renderError()
@@ -43,8 +42,6 @@ try {
   // Getting query
   const query = searchView.getQuery()
   if(!query) return;
-
-
 
   // Load search results
   await model.loadSearchResults(query);
@@ -78,7 +75,7 @@ const servingsController = function(newServings) {
 
 }
 
-const controlBookmark = function() {
+const controlAddBookmark = function() {
   // Add or remove bookmark
   if(!model.state.recipe.bookmarked)
   model.addBookmark(model.state.recipe);
@@ -86,14 +83,19 @@ const controlBookmark = function() {
   model.deleteBookmark(model.state.recipe.id)
 
   // Update recipe view
-  recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
 
   // Render bookmarks
   bookmarksView.render(model.state.bookmarks)
 }
 
+const controlBookmarks = function() {
+  bookmarksView.render(model.state.bookmarks)
+}
+
 const init = function() {
-  recipeView.addHandlerBoomkark(controlBookmark)
+  bookmarksView.addHandlerRender(controlBookmarks)
+  recipeView.addHandlerBoomkark(controlAddBookmark)
   recipeView.addHandlerServings(servingsController)
   recipeView.addHandlerRender(controlRecipe);
   searchView.addHandlerSearch(controlSearchResults)
