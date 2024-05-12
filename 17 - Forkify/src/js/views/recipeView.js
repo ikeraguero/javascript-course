@@ -9,14 +9,13 @@ class RecipeView extends View {
 
     addHandlerRender(handler) {
         const options = ["load", "hashchange"];
-        options.forEach(ev => window.addEventListener(ev, handler))
+        options.forEach(ev => window.addEventListener(ev, handler))        
     }
 
     addHandlerServings(handler) {
       this._parentElement.addEventListener("click", function(e) {
         const btn = e.target.closest(".btn--update-servings")
         if(!btn) return;
-        console.log(btn);
         
         const goTo = +btn.dataset.goto
 
@@ -25,6 +24,13 @@ class RecipeView extends View {
       })
     }
 
+    addHandlerBoomkark(handler) {
+      this._parentElement.addEventListener("click", function(e) {
+        const btn = e.target.closest(".btn--bookmark")
+        if (!btn) return;
+        handler()
+      })
+    }
     
 
     _generateMarkup() {
@@ -68,9 +74,9 @@ class RecipeView extends View {
             <use href="${icons}#icon-user"></use>
           </svg>
         </div>
-        <button class="btn--round">
+        <button class="btn--round btn--bookmark">
           <svg class="">
-            <use href="${icons}#icon-bookmark-fill"></use>
+            <use href="${icons}#icon-bookmark${this._data.bookmarked ? '-fill' : ''}"></use>
           </svg>
         </button>
       </div>
