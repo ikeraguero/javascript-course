@@ -20,6 +20,10 @@ const controlRecipe = async function() {
     
     if(!id) return;
     recipeView.renderSpinner();
+
+      // Update search results
+    resultsView.update(model.getSearchResultsPage())
+
     // Loading recipe - model
     await model.loadRecipe(id)
 
@@ -38,6 +42,8 @@ try {
   // Getting query
   const query = searchView.getQuery()
   if(!query) return;
+
+
 
   // Load search results
   await model.searchRecipe(query);
@@ -66,7 +72,8 @@ const servingsController = function(newServings) {
   model.updateServings(newServings)
 
   //Update the recipe view
-  recipeView.render(model.state.recipe);
+  // recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
 
 }
 
